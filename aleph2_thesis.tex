@@ -60,7 +60,7 @@ Now, the team is focused on improving the \rovername rover (Fig. \ref{fig:lazik1
     \begin{minipage}{.45\textwidth}
       \centering
       \includegraphics[height=4cm]{img/lazik2.jpg}
-      \caption{\rovername performing a task on the \textit{European Rover Challenge 2019}}
+      \caption{\rovername performing a task at the \textit{European Rover Challenge 2019}}
       \label{fig:lazik2}
     \end{minipage}
     \hspace*{\fill}
@@ -87,15 +87,15 @@ To address the aforementioned issues with the previous system, a set of design a
 
 
 \section{Used technologies}
-This section describes some main concepts of technologies the software is based on, required to understand certain parts of this thesis.
+This section describes some of the main concepts of technologies the software is based on, which are essential in order to understand certain parts of this thesis.
 
     \subsection{ROS}
     \textit{The Robot Operating System (ROS) is a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.}
     \cite{ros:about}
 
-    This is a brief overview of the concepts related to ROS. A more in-depth information, as well as tutorials can be found in the documentation \cite{ros:documentation} and in books, like \cite{ros:mastering}.
+    This is a brief overview of the concepts related to ROS. A more in-depth information, as well as tutorials, can be found in the documentation \cite{ros:documentation} and in books, such as \cite{ros:mastering}.
 
-    ROS was founded in 2007 by Willow Garage, a robotics research lab and technology incubator devoted to developing hardware and open source software for personal robotics applications \cite{ros:willowgarage}. In 2013 the project was took over by the Open Source Robotics Foundation (OSRF), a non-profit organization founded by members of the global robotics community.
+    ROS was founded in 2007 by Willow Garage, a robotics research lab and technology incubator devoted to developing hardware and open source software for personal robotics applications \cite{ros:willowgarage}. In 2013, the project was taken over by the Open Source Robotics Foundation (OSRF), a non-profit organization founded by members of the global robotics community.
 
     It is important to note that ROS in itself is not a real operating system (in the sense of process management) but rather a meta-operating system that runs on top of Unix-based platforms. It provides a layer for communication and management of processes running in a heterogeneous computer cluster (hence the term meta-operating system).
 
@@ -106,7 +106,7 @@ This section describes some main concepts of technologies the software is based 
         \item \textbf{Nodes}\\
         Processes that perform computation. They can communicate with each other via topics, services or Parameter Server. A typical robot control system will consist of many nodes. For example, one for communication with the hardware, one that performs path planning, one that provides graphical interface, and so on.
         \item \textbf{Topics}\\
-        Named buses over which nodes exchange messages. Nodes don't assume the recipient of the messages they send. Instead, they \textit{publish} to the specified topic. The nodes that want to receive these messages can \textit{subscribe} to the same topic. There is no limit on publishers and subscribers, but only one message type can be sent to one topic.
+        Named buses over which nodes exchange messages. Nodes do not assume the recipient of the messages they send. Instead, they \textit{publish} to the specified topic. The nodes that want to receive these messages can \textit{subscribe} to the same topic. There is no limit on publishers and subscribers, but only one message type can be sent to one topic.
         \item \textbf{Services}\\
         Services are similar to topics, but instead of asynchronous stream of data, they allow for synchronous request / reply interactions. They allow one node to call a function that executes in another node and get the result. Two nodes cannot provide the service with the same name.
         \item \textbf{Message types}\\
@@ -118,7 +118,7 @@ This section describes some main concepts of technologies the software is based 
         \item \textbf{Launch files}\\
         Describe a set of nodes to run together and parameters to load on the Parameter Server. They provide an easy way to start the whole subsystem by executing only one command. 
         \item \textbf{URDF model}\\
-        Unified Robot Description Format (URDF) allows represent robot model in a human-readable format, that can be useful in the ROS ecosystem. The elements of the robot, together with their collision, inertial and physical properties, are described by \textit{links}. The connections between \textit{links} (parent and child) are specified by \textit{joints}. (see Fig. \ref{fig:husky}) 
+        Unified Robot Description Format (URDF) allows to represent the robot model in a human-readable format, which can be useful in the ROS ecosystem. The elements of the robot, together with their collision, inertial and physical properties, are described by \textit{links}. The connections between \textit{links} (parent and child) are specified by \textit{joints}. (see Fig. \ref{fig:husky}) 
         \item \textbf{Packages}\\
         Main unit for organizing software in ROS. A single package may contain nodes, libraries, message and service type definitions, launch files, URDF models, configuration files and other pieces of software that constitute a useful module. A package also typically defines its dependencies as either other ROS packages or ROS-independent tools, libraries.
 
@@ -146,19 +146,19 @@ This section describes some main concepts of technologies the software is based 
         Apart from the communication libraries, the core ROS packages provide many useful utilities, such as command line tools:
 
         \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-            \item \textbf{roscore} - start ROS Master, Parameter Server and \href{http://wiki.ros.org/rosout#rosout-1}{rosout} logging node,
-            \item \textbf{rosrun} - run a node located in an arbitrary package,
-            \item \textbf{roslaunch} - launch a set of nodes specified in a launch file, start roscore if it is not running already,
-            \item \textbf{rosnode} - list and print information about running nodes, ping or kill a specified node,
-            \item \textbf{rostopic} - list and print information about active topics, display messages published on a specified topic or publish to one itself,
-            \item \textbf{rosservice} - list and print information about advertised services, call a service and display the response,
-            \item \textbf{rosdep} - download and install the dependencies of a given package,
+            \item \textbf{roscore} - starts ROS Master, Parameter Server and \href{http://wiki.ros.org/rosout#rosout-1}{rosout} logging node,
+            \item \textbf{rosrun} - runs a node located in an arbitrary package,
+            \item \textbf{roslaunch} - launches a set of nodes specified in a launch file, starts roscore if it is not running already,
+            \item \textbf{rosnode} - lists and prints information about running nodes, pings or kills a specified node,
+            \item \textbf{rostopic} - lists and prints information about active topics, displays messages published on a specified topic or publishes on one by itself,
+            \item \textbf{rosservice} - lists and prints information about the advertised services, calls a service and displays the response,
+            \item \textbf{rosdep} - downloads and installs the dependencies of a given package.
         \end{itemize}
-        and graphical utilities:
+        They also provide graphical tools:
 
         \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-            \item \textbf{RQt} - framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions like: message publishing, displaying log messages, plotting data published on topics, visualizing the computation graph and many other.
-            \item \textbf{RViz} - 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used for interaction with the robot, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
+            \item \textbf{RQt} - a framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions, such as publishing messages, displaying log messages, plotting data published on topics, visualizing the computation graph and many others,
+            \item \textbf{RViz} - a 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used to interact with the robot via, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
         \end{itemize}
 
         \begin{figure}[ht]
@@ -180,17 +180,19 @@ This section describes some main concepts of technologies the software is based 
         \end{figure}
 
     \subsection{ros\_control}
+    
+    \textit{The ros\_control framework provides the capability to implement and manage robot controllers with a focus on both real-time performance and sharing of controllers in a robot-agnostic way.} 
+    \cite{ros_control:paper}
+    
+    
 
     \begin{figure}[ht]
         \centering
         \includegraphics[width=\textwidth]{img/ros_control.png}
-        \caption{ROS control overview (Source: \cite{ros:control})}
+        \caption{ROS control overview (Source: \cite{ros_control:paper})}
         \label{fig:ros_control}
     \end{figure}
 
-    % \cite{ros:control}
-
-% \pagebreak
     \subsection{Gazebo}
 
     \subsection{RUBI}

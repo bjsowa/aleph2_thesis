@@ -5,6 +5,8 @@
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 \usepackage{graphicx}
 \usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[justification=centering]{caption}
 
 \newcommand{\oldrovername}{$\aleph_1$\ }
 \newcommand{\rovername}{$\aleph_2$\ }
@@ -30,25 +32,23 @@
 \chapter{Introduction}
 
 \section{Background}
-The NASA's \textit{Mars Exploration Rover} mission has inspired various annual robotic competitions for university level students that challenge teams to build a robot that would help early explorers on Mars. 
+The NASA's \textit{Mars Exploration Rover} mission has inspired various annual robotic competitions for university level students. The challenge is to build a robot that would help early explorers on Mars. 
 The \textit{Rover Challenge Series} is a series of such competitions run by the \textit{Mars Society}. Among the most popular are \textit{University Rover Challenge} (hosted since 2007) and \textit{European Rover Challenge} (hosted since 2014).
 
 The tasks on the competitions often include:
 \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-    \item Navigation through rough terrain
+    \item Navigating through rough terrain
     \item Picking up and transporting objects
     \item Flipping switches on the control panel 
     \item Collecting and examining soil samples
-    \item Autonomous navigation between predefined points
 \end{itemize}
 
-\textit{Continuum} (also known as \textit{Team Continuum} or \textit{Continuum Rover Team}) is a student research club from University of Wroclaw whose main focus is to build and improve its Mars rover prototype and compete in the challenges. The team operates since 2014 and debuted with the \oldrovername (pron. aleph one) robot scoring 3rd place at \textit{University Rover Challenge 2016} and 2nd place at \textit{University Rover Challenge 2017}.
+\textit{Continuum} (also known as \textit{Team Continuum} or \textit{Continuum Rover Team}) is a student research club from University of Wroclaw whose main focus is to build and improve its Mars rover prototype and compete in the challenges. The team has operated since 2014 and debuted with the \oldrovername (pron. aleph one) robot, scoring 3rd place at \textit{University Rover Challenge 2016} and 2nd place at \textit{University Rover Challenge 2017}.
 
 Now, the team is focused on improving the \rovername rover (Fig. \ref{fig:lazik1} and \ref{fig:lazik2}), which is the next iteration of the \oldrovername robot. 
 
 
-\begin{figure}[h]
-    \vspace{0.4cm}
+\begin{figure}[ht]
     \hspace*{\fill}
     \begin{minipage}{.45\textwidth}
       \centering
@@ -73,28 +73,125 @@ Although the \oldrovername rover is a well-proven construction piece, its softwa
     \item \textbf{Hard-coded configuration} - all of the configuration (e.g. IDs of the motor drivers, joint names and limits) is embedded into the source code. This makes it needlessly difficult to reconfigure the programs after making changes to other robot subsystems (hardware or software).
     \item \textbf{Lack of abstraction layers} - the software does not provide any libraries for the implemented controllers or communication protocols. All of these components are placed into single executables. This makes it hard to reuse the code for other purposes.
 \end{itemize}
-These issues, together with the passion for robots, were the main reasons that led to the decision of making new control software for the \rovername rover.
+These issues, combined with the passion for robots, were the main reasons that led to the decision of making new control software for the \rovername rover.
 
 \section{Goals}
-To address the mentioned issues with the previous system, a set of design assumptions that the new software has to meet have been defined. The main assumptions include:
+To address the aforementioned issues with the previous system, a set of design assumptions that the new software has to meet has been defined. The main assumptions include:
 
 \begin{itemize}
-    \item \textbf{Extensive use of open source software} - by relying on widely used and well tested open source projects, the software can be more stable and developed faster.
+    \item \textbf{Extensive use of open source software} - by relying on widely used and well tested open source projects, the software can become more stable and be developed faster.
     \item \textbf{No hard-coded configuration} - the programs should not assume much about the hardware they are running on. Instead, they should read the configuration at runtime. The configuration should be well-documented and easily editable.
-    \item \textbf{Hardware abstraction layer} - the software should deliver an abstraction over the hardware it is communicating with by providing interfaces that define its capabilities. This should greatly improve the code reusability. 
+    \item \textbf{Hardware abstraction layer} - the software should deliver an abstraction over the hardware it is communicating with by providing interfaces that define its capabilities. This should greatly improve the reusability of the code. 
     \item \textbf{Simulation environment} - the software should provide the ability to simulate the robot operation in a virtual world. The simulation should be able to run the same set of controllers (ideally, with the same configuration) and provide the same control interfaces as the real robot.
 \end{itemize}
 
 
 \section{Used technologies}
+This section describes some main concepts of technologies the software is based on, required to understand certain parts of this thesis.
 
     \subsection{ROS}
+    \textit{The Robot Operating System (ROS) is a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.}
+    \cite{ros:about}
+
+    This is a brief overview of the concepts related to ROS. A more in-depth information, as well as tutorials can be found in the documentation \cite{ros:documentation} and in books, like \cite{ros:mastering}.
+
+    ROS was founded in 2007 by Willow Garage, a robotics research lab and technology incubator devoted to developing hardware and open source software for personal robotics applications \cite{ros:willowgarage}. In 2013 the project was took over by the Open Source Robotics Foundation (OSRF), a non-profit organization founded by members of the global robotics community.
+
+    It is important to note that ROS in itself is not a real operating system (in the sense of process management) but rather a meta-operating system that runs on top of Unix-based platforms. It provides a layer for communication and management of processes running in a heterogeneous computer cluster (hence the term meta-operating system).
+
+    The basic concepts of ROS include:
+    \begin{itemize}
+        \item \textbf{Computation graph}\\
+        Peer-to-peer network of ROS nodes that are running in a computer cluster.
+        \item \textbf{Nodes}\\
+        Processes that perform computation. They can communicate with each other via topics, services or Parameter Server. A typical robot control system will consist of many nodes. For example, one for communication with the hardware, one that performs path planning, one that provides graphical interface, and so on.
+        \item \textbf{Topics}\\
+        Named buses over which nodes exchange messages. Nodes don't assume the recipient of the messages they send. Instead, they \textit{publish} to the specified topic. The nodes that want to receive these messages can \textit{subscribe} to the same topic. There is no limit on publishers and subscribers, but only one message type can be sent to one topic.
+        \item \textbf{Services}\\
+        Services are similar to topics, but instead of asynchronous stream of data, they allow for synchronous request / reply interactions. They allow one node to call a function that executes in another node and get the result. Two nodes cannot provide the service with the same name.
+        \item \textbf{Message types}\\
+        For two nodes to successfully communicate via topics or services, a message type definition has to be shared between them. Message types are defined by a simplified description format where a set of fields is listed. Each field contains a name and a type (either a built-in type, an array or another message). Service types use the same description format but both request and reply types are defined.
+        \item \textbf{Master}\\
+        A program that is essential to run the computation graph. It enables individual nodes to locate each other; keeps track of the running nodes, registered publishers, subscribers, services. The master also provides the Parameter Server.  
+        \item \textbf{Parameters}\\
+        Globally viewable data entries stored in the Parameter Server that can be retrieved by nodes at runtime. Their primary use is to store static, non-binary data such as configuration for the starting nodes.
+        \item \textbf{Launch files}\\
+        Describe a set of nodes to run together and parameters to load on the Parameter Server. They provide an easy way to start the whole subsystem by executing only one command. 
+        \item \textbf{URDF model}\\
+        Unified Robot Description Format (URDF) allows represent robot model in a human-readable format, that can be useful in the ROS ecosystem. The elements of the robot, together with their collision, inertial and physical properties, are described by \textit{links}. The connections between \textit{links} (parent and child) are specified by \textit{joints}. (see Fig. \ref{fig:husky}) 
+        \item \textbf{Packages}\\
+        Main unit for organizing software in ROS. A single package may contain nodes, libraries, message and service type definitions, launch files, URDF models, configuration files and other pieces of software that constitute a useful module. A package also typically defines its dependencies as either other ROS packages or ROS-independent tools, libraries.
+
+    \end{itemize}
+
+    \begin{figure}[ht]
+        \centering
+        \captionsetup{margin=2cm}
+        \includegraphics[width=\textwidth]{img/rqt_graph.png}
+        \caption{An example visualization of ROS computation graph, created with  \href{http://wiki.ros.org/rqt_graph}{rqt\_graph} tool.}
+        \label{fig:ros_graph}
+    \end{figure}
+
+    \begin{figure}[ht]
+        \centering
+        \captionsetup{margin=1cm}
+        \includegraphics[width=\textwidth]{img/husky.pdf}
+        \caption{Visualization of Clearpath Husky URDF model, created with \href{http://wiki.ros.org/urdf\#Visualization}{urdf\_to\_graphviz} tool. Black rectangles represent links and blue ovals represent joints.}
+        \label{fig:husky}
+    \end{figure}
+
+\pagebreak
+
+        \subsubsection{Built-in tools}
+        Apart from the communication libraries, the core ROS packages provide many useful utilities, such as command line tools:
+
+        \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+            \item \textbf{roscore} - start ROS Master, Parameter Server and \href{http://wiki.ros.org/rosout#rosout-1}{rosout} logging node,
+            \item \textbf{rosrun} - run a node located in an arbitrary package,
+            \item \textbf{roslaunch} - launch a set of nodes specified in a launch file, start roscore if it is not running already,
+            \item \textbf{rosnode} - list and print information about running nodes, ping or kill a specified node,
+            \item \textbf{rostopic} - list and print information about active topics, display messages published on a specified topic or publish to one itself,
+            \item \textbf{rosservice} - list and print information about advertised services, call a service and display the response,
+            \item \textbf{rosdep} - download and install the dependencies of a given package,
+        \end{itemize}
+        and graphical utilities:
+
+        \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+            \item \textbf{RQt} - framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions like: message publishing, displaying log messages, plotting data published on topics, visualizing the computation graph and many other.
+            \item \textbf{RViz} - 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used for interaction with the robot, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
+        \end{itemize}
+
+        \begin{figure}[ht]
+            \centering
+            \captionsetup{margin=2cm}
+            \includegraphics[height=6cm]{img/rqt.png}
+            \caption{An example screenshot of RQt (Source: \cite{ros:rqt})}
+            \label{fig:rqt}
+        \end{figure}
+
+\pagebreak
+
+        \begin{figure}[ht]
+            \centering
+            \captionsetup{margin=2cm}
+            \includegraphics[height=6cm]{img/rviz_pr2.png}
+            \caption{RViz utilizing motion planning plugin to move the joints on the PR2 robot}
+            \label{fig:rviz_pr2}
+        \end{figure}
 
     \subsection{ros\_control}
 
-    \subsection{Gazebo}
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{img/ros_control.png}
+        \caption{ROS control overview (Source: \cite{ros:control})}
+        \label{fig:ros_control}
+    \end{figure}
 
-    \subsection{CANOpen}
+    % \cite{ros:control}
+
+% \pagebreak
+    \subsection{Gazebo}
 
     \subsection{RUBI}
 
@@ -115,7 +212,7 @@ To address the mentioned issues with the previous system, a set of design assump
 
 \chapter{Conclusion}
 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{bibliography}
 
 \end{document}

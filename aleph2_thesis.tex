@@ -217,7 +217,7 @@ This section describes some of the main concepts of technologies the software is
         Provide a standardized way for communication between controllers and a hardware abstraction layer, by sharing resources across them. The most common hardware interfaces include: state interface (for getting the current joint state) and command interfaces (for sending command to the joints, such as effort, velocity or position commands).   
         \item \textbf{RobotHW}\\
         A base class for abstracting custom robot hardware. It provides functions to register and manage hardware interfaces and performs resource conflict checking. To implement a hardware abstraction layer for a robot, a user has to write a derived class that looks similar to this:
-        \lstinputlisting[language=C++]{lst/robot_hw.cpp}
+        \lstinputlisting[language=C++]{lst/robot_hw.lst}
         \item \textbf{Controllers}\\
         Communicate with the hardware abstraction layer by accessing resources that are shared through hardware interfaces. Some example controller types available in \textsf{ros\_control} include:
             \begin{itemize}
@@ -248,7 +248,7 @@ This section describes some of the main concepts of technologies the software is
     \subsubsection{Control loop}
     After writing the hardware abstraction layer for the robot, in order to use it with the controller, the user has to implement a control loop that utilizes the Controller Manager. A sample control loop may look similar to this:
 
-    \lstinputlisting[language=C++]{lst/control_loop.cpp}
+    \lstinputlisting[language=C++]{lst/control_loop.lst}
 
     \subsection{Gazebo}
 

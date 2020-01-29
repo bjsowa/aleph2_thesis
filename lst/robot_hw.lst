@@ -17,7 +17,7 @@ protected:
     VelocityJointInterface velocity_joint_interface;
     PositionJointInterface position_joint_interface;
 
-    // Resources shared throught hardware interfaces
+    // Resources shared through hardware interfaces
     double joint_position[];
     double joint_velocity[];
     double joint_effort[];

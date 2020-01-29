@@ -1,0 +1,27 @@
+class MyRobot: public hardware_interface::RobotHW
+{
+public:
+    // perform robot hardware setup
+    // and register hardware interfaces
+    MyRobot();
+
+    // read data from the robot hardware
+    void read();
+    // write data to the robot hardware
+    void write();
+
+protected:
+    // Hardware interfaces
+    JointStateInterface joint_state_interface;
+    EffortJointInterface effort_joint_interface;
+    VelocityJointInterface velocity_joint_interface;
+    PositionJointInterface position_joint_interface;
+
+    // Resources shared throught hardware interfaces
+    double joint_position[];
+    double joint_velocity[];
+    double joint_effort[];
+    double joint_position_command[];
+    double joint_velocity_command[];
+    double joint_effort_command[];
+};

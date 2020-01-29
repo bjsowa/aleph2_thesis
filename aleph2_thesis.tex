@@ -7,6 +7,32 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage[justification=centering]{caption}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolor}{rgb}{0.90,0.90,0.90}
+\definecolor{codered}{RGB}{216, 38, 81}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolor},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codered},
+    numberstyle=\tiny\color{codegray},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=none,
+    numbersep=5pt,
+    frame=single
+}
+
+\lstset{style=mystyle}
 
 \newcommand{\oldrovername}{$\aleph_1$\ }
 \newcommand{\rovername}{$\aleph_2$\ }
@@ -184,14 +210,45 @@ This section describes some of the main concepts of technologies the software is
     \textit{The ros\_control framework provides the capability to implement and manage robot controllers with a focus on both real-time performance and sharing of controllers in a robot-agnostic way.} 
     \cite{ros_control:paper}
     
-    
+    \textsf{ros\_control} (also referred as \textsf{ROS control}) was developed as a hardware independent version of \textsf{pr2\_controller\_manager}, which is a framework specific to the PR2 robot. Its core functionality can be summarized by the following components:
 
+    \begin{itemize}
+        \item \textbf{hardware interfaces}\\
+        Provide a standardized way for communication between controllers and a hardware abstraction layer, by sharing resources across them. The most common hardware interfaces include: state interface (for getting the current joint state) and command interfaces (for sending command to the joints, such as effort, velocity or position commands).   
+        \item \textbf{RobotHW}\\
+        A base class for abstracting custom robot hardware. It provides functions to register and manage hardware interfaces and performs resource conflict checking. To implement a hardware abstraction layer for a robot, a user has to write a derived class that looks similar to this:
+        \lstinputlisting[language=C++]{lst/robot_hw.cpp}
+        \item \textbf{Controllers}\\
+        Communicate with the hardware abstraction layer by accessing resources that are shared through hardware interfaces. Some example controller types available in \textsf{ros\_control} include:
+            \begin{itemize}
+                \item \textsf{joint\_state\_controller/JointStateController} - reads joint states and publishes them on a ROS topic, requires state interface,
+                \item \textsf{velocity\_controllers/JointVelocityController} - listens for velocity commands and forwards them to the hardware abstraction layer, requires velocity interface
+                \item \textsf{effort\_controllers/JointPositionController} - listens for position commands and forwards effort commands to the hardware abstraction layer, uses a closed-loop controller to get to joint to the specified position, requires effort and state interfaces
+            \end{itemize}
+        \item \textbf{Controller Manager}\\
+        Is responsible for managing the life cycle of the controllers. Provides its functionality through ROS services. It allows to list, load, unload, start or stop controllers. 
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[height=3cm]{img/controller_life.png}
+            \caption{Life cycle of a controller (Source: \cite{ros_control:cm_wiki})}
+            \label{fig:controller_life}
+        \end{figure}
+
+    \end{itemize}
+
+% \pagebreak
+    
     \begin{figure}[ht]
         \centering
         \includegraphics[width=\textwidth]{img/ros_control.png}
-        \caption{ROS control overview (Source: \cite{ros_control:paper})}
+        \caption{ROS control overview (Source: \cite{ros_control:wiki})}
         \label{fig:ros_control}
     \end{figure}
+
+    \subsubsection{Control loop}
+    After writing the hardware abstraction layer for the robot, in order to use it with the controller, the user has to implement a control loop that utilizes the Controller Manager. A sample control loop may look similar to this:
+
+    \lstinputlisting[language=C++]{lst/control_loop.cpp}
 
     \subsection{Gazebo}
 

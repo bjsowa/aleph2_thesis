@@ -98,9 +98,9 @@ Now, the team is focused on improving the \rovername rover (Fig. \ref{fig:lazik1
 \section{Motivation}
 Although the \oldrovername rover is a well-proven construction piece, its software responsible for robot control and communication with the hardware leaves a lot of room for improvement. The main problems identified are:
 \begin{itemize}
-    \item \textbf{Unstable implementation} -\todomma{zamiast znaku półpauzy należy użyć znak dywizu --} the software responsible for the drivetrain often fails to communicate with the motor drivers due to only\todomma{słowo only zbędne} partial implementation of the communication protocol and various race conditions.
-    \item \textbf{Hard-coded configuration} - all of the configuration (e.g. IDs of the motor drivers, joint names and limits) is embedded into the source code. This makes it needlessly difficult to reconfigure the programs after making changes to other robot subsystems (hardware or software).
-    \item \textbf{Lack of abstraction layers} - the software does not provide any libraries for the implemented controllers or communication protocols. All of these components are placed into single executables. This makes it hard to reuse the code for other purposes.
+    \item \textbf{Unstable implementation} -- the software responsible for the drivetrain often fails to communicate with the motor drivers due to  partial implementation of the communication protocol and various race conditions.
+    \item \textbf{Hard-coded configuration} -- all of the configuration (e.g. IDs of the motor drivers, joint names and limits) is embedded into the source code. This makes it needlessly difficult to reconfigure the programs after making changes to other robot subsystems (hardware or software).
+    \item \textbf{Lack of abstraction layers} -- the software does not provide any libraries for the implemented controllers or communication protocols. All of these components are placed into single executables. This makes it hard to reuse the code for other purposes.
 \end{itemize}
 These issues, combined with the passion for robots, were the main reasons that led to the decision of making new control software for the \rovername rover.
 
@@ -108,10 +108,10 @@ These issues, combined with the passion for robots, were the main reasons that l
 To address the aforementioned issues with the previous system, a set of design assumptions that the new software has to meet has been defined. The main assumptions include:
 
 \begin{itemize}
-    \item \textbf{Extensive use of open source software} - by relying on widely used and well tested open source projects, the software can become more stable and be developed faster.
-    \item \textbf{No hard-coded configuration} - the programs should not assume much about the hardware they are running on. Instead, they should read the configuration at runtime. The configuration should be well-documented and easily editable.
-    \item \textbf{Hardware abstraction layer} - the software should deliver an abstraction over the hardware it is communicating with by providing interfaces that define its capabilities. This should greatly improve the reusability of the code. 
-    \item \textbf{Simulation environment} - the software should provide the ability to simulate the robot operation in a virtual world. The simulation should be able to run the same set of controllers (ideally, with the same configuration) and provide the same control interfaces as the real robot.
+    \item \textbf{Extensive use of open source software} -- by relying on widely used and well tested open source projects, the software can become more stable and be developed faster.
+    \item \textbf{No hard-coded configuration} -- the programs should not assume much about the hardware they are running on. Instead, they should read the configuration at runtime. The configuration should be well-documented and easily editable.
+    \item \textbf{Hardware abstraction layer} -- the software should deliver an abstraction over the hardware it is communicating with by providing interfaces that define its capabilities. This should greatly improve the reusability of the code. 
+    \item \textbf{Simulation environment} -- the software should provide the ability to simulate the robot operation in a virtual world. The simulation should be able to run the same set of controllers (ideally, with the same configuration) and provide the same control interfaces as the real robot.
 \end{itemize}
 
 
@@ -130,29 +130,29 @@ This section describes some of the main concepts of technologies the software is
     It is important to note that ROS in itself is not a real operating system (in the sense of process management) but rather a meta-operating system that runs on top of Unix-based platforms. It provides a layer for communication and management of processes running in a heterogeneous computer cluster (hence the term meta-operating system).
 
     The basic concepts of ROS include:
-    \begin{itemize}
-        \item \textbf{Computation graph}\todomma{może użyć środowiska description zamiast itemize?}\\
+    \begin{description}[style=nextline]
+        \item [Computation graph] \hfill
         Peer-to-peer network of ROS nodes that are running in a computer cluster.
-        \item \textbf{Nodes}\\
+        \item [Nodes] 
         Processes that perform computation. They can communicate with each other via topics, services or Parameter Server. A typical robot control system will consist of many nodes. For example, one for communication with the hardware, one that performs path planning, one that provides graphical interface, and so on.
-        \item \textbf{Topics}\\
+        \item [Topics] 
         Named buses over which nodes exchange messages. Nodes do not assume the recipient of the messages they send. Instead, they \textit{publish} to the specified topic. The nodes that want to receive these messages can \textit{subscribe} to the same topic. There is no limit on publishers and subscribers, but only one message type can be sent to one topic.
-        \item \textbf{Services}\\
+        \item [Services] 
         Services are similar to topics, but instead of asynchronous stream of data, they allow for synchronous request / reply interactions. They allow one node to call a function that executes in another node and get the result. Two nodes cannot provide the service with the same name.
-        \item \textbf{Message types}\\
+        \item [Message types]
         For two nodes to successfully communicate via topics or services, a message type definition has to be shared between them. Message types are defined by a simplified description format where a set of fields is listed. Each field contains a name and a type (either a built-in type, an array or another message). Service types use the same description format but both request and reply types are defined.
-        \item \textbf{Master}\\
+        \item [Master]
         A program that is essential to run the computation graph. It enables individual nodes to locate each other; keeps track of the running nodes, registered publishers, subscribers, services. The master also provides the Parameter Server.  
-        \item \textbf{Parameters}\\
+        \item [Parameters]
         Globally viewable data entries stored in the Parameter Server that can be retrieved by nodes at runtime. Their primary use is to store static, non-binary data such as configuration for the starting nodes.
-        \item \textbf{Launch files}\\
+        \item [Launch files]
         Describe a set of nodes to run together and parameters to load on the Parameter Server. They provide an easy way to start the whole subsystem by executing only one command. 
-        \item \textbf{URDF model}\\
+        \item [URDF model]
         Unified Robot Description Format (URDF) allows to represent the robot model in a human-readable format, which can be useful in the ROS ecosystem. The elements of the robot, together with their collision, inertial and physical properties, are described by \textit{links}. The connections between \textit{links} (parent and child) are specified by \textit{joints}. (see Fig. \ref{fig:husky}) 
-        \item \textbf{Packages}\\
+        \item [Packages]
         Main unit for organizing software in ROS. A single package may contain nodes, libraries, message and service type definitions, launch files, URDF models, configuration files and other pieces of software that constitute a useful module. A package also typically defines its dependencies as either other ROS packages or ROS-independent tools, libraries.
 
-    \end{itemize}
+    \end{description}
 
     \begin{figure}[ht]
         \centering
@@ -176,19 +176,19 @@ This section describes some of the main concepts of technologies the software is
         Apart from the communication libraries, the core ROS packages provide many useful utilities, such as command line tools:
 
         \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-            \item \textbf{roscore} - starts ROS Master, Parameter Server and \href{http://wiki.ros.org/rosout#rosout-1}{rosout} logging node,
-            \item \textbf{rosrun} - runs a node located in an arbitrary package,
+            \item \textbf{roscore} -- starts ROS Master, Parameter Server and \href{http://wiki.ros.org/rosout#rosout-1}{rosout} logging node,
+            \item \textbf{rosrun} -- runs a node located in an arbitrary package,
             \item \textbf{roslaunch} - launches a set of nodes specified in a launch file, starts roscore if it is not running already,
-            \item \textbf{rosnode} - lists and prints information about running nodes, pings or kills a specified node,
-            \item \textbf{rostopic} - lists and prints information about active topics, displays messages published on a specified topic or publishes on one by itself,
-            \item \textbf{rosservice} - lists and prints information about the advertised services, calls a service and displays the response,
-            \item \textbf{rosdep} - downloads and installs the dependencies of a given package.
+            \item \textbf{rosnode} -- lists and prints information about running nodes, pings or kills a specified node,
+            \item \textbf{rostopic} -- lists and prints information about active topics, displays messages published on a specified topic or publishes on one by itself,
+            \item \textbf{rosservice} -- lists and prints information about the advertised services, calls a service and displays the response,
+            \item \textbf{rosdep} -- downloads and installs the dependencies of a given package.
         \end{itemize}
         They also provide graphical tools:
 
         \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-            \item \textbf{RQt} - a framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions, such as publishing messages, displaying log messages, plotting data published on topics, visualizing the computation graph and many others,
-            \item \textbf{RViz} - a 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used to interact with the robot via, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
+            \item \textbf{RQt} -- a framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions, such as publishing messages, displaying log messages, plotting data published on topics, visualizing the computation graph and many others,
+            \item \textbf{RViz} -- a 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used to interact with the robot via, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
         \end{itemize}
 
         \begin{figure}[ht]
@@ -216,20 +216,20 @@ This section describes some of the main concepts of technologies the software is
     
     \textsf{ros\_control} (also referred as \textsf{ROS control}) was developed as a hardware independent version of \textsf{pr2\_controller\_manager}, which is a framework specific to the PR2 robot. Its core functionality can be summarized by the following components:
 
-    \begin{itemize}
-        \item \textbf{hardware interfaces}\\
+    \begin{description}[style=nextline]
+        \item [Hardware interfaces]
         Provide a standardized way for communication between controllers and the hardware abstraction layer by sharing resources across them. The most common hardware interfaces include: state interface (for getting the current joint state) and command interfaces (for sending command to the joints, such as effort, velocity or position commands).   
-        \item \textbf{RobotHW}\\
+        \item [RobotHW]
         A base class for abstracting custom robot hardware. It provides functions to register and manage hardware interfaces and performs resource conflict checking. To implement a hardware abstraction layer for a robot, the user has to write a derived class that looks similar to this:
         \lstinputlisting[language=C++]{lst/robot_hw.lst}
-        \item \textbf{Controllers}\\
+        \item [Controllers]
         Communicate with the hardware abstraction layer by accessing resources that are shared through hardware interfaces. Some example controller types available in \textsf{ros\_control} include:
             \begin{itemize}
                 \item \textsf{joint\_state\_controller/JointStateController} - reads joint states and publishes them on a ROS topic; requires state interface,
                 \item \textsf{velocity\_controllers/JointVelocityController} - listens for velocity commands and forwards them to the hardware abstraction layer; requires velocity interface
                 \item \textsf{effort\_controllers/JointPositionController} - listens for position commands and forwards effort commands to the hardware abstraction layer; uses a closed-loop controller to get to joint to the specified position; requires effort and state interfaces
             \end{itemize}
-        \item \textbf{Controller Manager}\\
+        \item [Controller Manager]
         Is responsible for managing the life cycle of the controllers. Provides its functionality through ROS services. It allows to list, load, unload, start or stop controllers. 
         \begin{figure}[ht]
             \centering
@@ -238,7 +238,7 @@ This section describes some of the main concepts of technologies the software is
             \label{fig:controller_life}
         \end{figure}
 
-    \end{itemize}
+    \end{description}
 
 % \pagebreak
     
@@ -260,7 +260,7 @@ This section describes some of the main concepts of technologies the software is
     Gazebo uses its own Simulation Description Format (SDF) to describe a simulation environment (the robots and the world they are moving in), but can also spawn URDF models at runtime. The URDF models need to have physical properties defined (mass, inertia, friction, etc.) and can use gazebo-specific tags to describe additional properties used in simulation.
 
     \begin{figure}[ht]
-        \centering
+        \centering 
         \captionsetup{margin=2.5cm} 
         \includegraphics[height=8cm]{img/gazebo_pr2.png}
         \caption{An example simulation of the PR2 robot for testing object grasp operation}

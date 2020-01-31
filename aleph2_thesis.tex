@@ -165,8 +165,8 @@ This section describes some of the main concepts of technologies the software is
     \begin{figure}[ht]
         \centering
         \captionsetup{margin=1cm}
-        \includegraphics[width=\textwidth]{img/husky.pdf}
-        \caption{Visualization of Clearpath Husky URDF model, created with \href{http://wiki.ros.org/urdf\#Visualization}{urdf\_to\_graphviz} tool. Black rectangles represent links and blue ovals represent joints.}
+        \includegraphics[width=\textwidth]{img/leo_description.pdf}
+        \caption{An example visualization of URDF model of four-wheeled robot with a camera, created with \href{http://wiki.ros.org/urdf\#Visualization}{urdf\_to\_graphviz} tool. Black rectangles represent links and blue ovals represent joints.}
         \label{fig:husky}
     \end{figure}
 
@@ -255,6 +255,27 @@ This section describes some of the main concepts of technologies the software is
     \lstinputlisting[language=C++]{lst/control_loop.lst}
 
     \subsection{Gazebo}
+    Gazebo provides an open-source 3D simulation environment, mainly for simulating robots. It incorporates a high-performance physics engines, such as Open Dynamics Engine (ODE), Bullet, Dynamic Animation and Robotics Toolkit (DART), etc. and supplies a realistic rendering of the environment. It can model robot behavior, as well as, various sensors, such as cameras, laser range finders, IMU, GPS.
+
+    Gazebo uses its own Simulation Description Format (SDF) to describe a simulation environment (the robots and the world they are moving in), but can also spawn URDF models at runtime. The URDF models need to have physical properties defined (mass, inertia, friction, etc.) and can use gazebo-specific tags to describe additional properties used in simulation.
+
+    \begin{figure}[ht]
+        \centering
+        \captionsetup{margin=2.5cm} 
+        \includegraphics[height=8cm]{img/gazebo_pr2.png}
+        \caption{An example simulation of the PR2 robot for testing object grasp operation}
+        \label{fig:gazebo_pr2}
+    \end{figure}
+
+    \subsubsection{ROS and ros\_control integration}
+    
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[height=10cm]{img/gazebo_control.png}
+        \caption{Gazebo control (Source: \cite{gazebo:ros_control})}
+        \label{fig:gazebo_control}
+    \end{figure}
 
     \subsection{RUBI}
 

@@ -14,24 +14,40 @@
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolor}{rgb}{0.90,0.90,0.90}
 \definecolor{codered}{RGB}{216, 38, 81}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 
 \lstdefinestyle{mystyle}{
     backgroundcolor=\color{backcolor},
     commentstyle=\color{codegreen},
     keywordstyle=\color{codered},
     numberstyle=\tiny\color{codegray},
-    basicstyle=\ttfamily\footnotesize,
+    basicstyle=\ttfamily\scriptsize,
     breakatwhitespace=false,
     breaklines=true,
     captionpos=b,
     keepspaces=true,
     numbers=none,
     numbersep=5pt,
-    frame=single
+    frame=single,
+    showstringspaces=false
 }
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  identifierstyle=\color{darkblue},
+  morekeywords={name,filename}
+}
+
+% \lstdefinelanguage{myC++}
+% {
+%     language = C++,
+%     morecomment=[s]{.}{(}
+% }
 
 \lstset{style=mystyle}
 
@@ -119,7 +135,6 @@ To address the aforementioned issues with the previous system, a set of design a
 This section describes some of the main concepts of technologies the software is based on, which are essential in order to understand certain parts of this thesis.
 
     \subsection{ROS}
-    \todomma{rozumiem, że to pochylenie oznacza cytowanie? zaznaczyłbym to własnymi kilkoma słowami, może na końcu, może na początku}
     \textit{The Robot Operating System (ROS) is a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.}
     \cite{ros:about}
 
@@ -254,6 +269,8 @@ This section describes some of the main concepts of technologies the software is
 
     \lstinputlisting[language=C++]{lst/control_loop.lst}
 
+\pagebreak
+
     \subsection{Gazebo}
     Gazebo provides an open-source 3D simulation environment, mainly for simulating robots. It incorporates a high-performance physics engines, such as Open Dynamics Engine (ODE), Bullet, Dynamic Animation and Robotics Toolkit (DART), etc. and supplies a realistic rendering of the environment. It can model robot behavior, as well as, various sensors, such as cameras, laser range finders, IMU, GPS.
 
@@ -268,14 +285,25 @@ This section describes some of the main concepts of technologies the software is
     \end{figure}
 
     \subsubsection{ROS and ros\_control integration}
-    
+    To integrate Gazebo with ROS ecosystem, a set of ROS packages named \textsf{gazebo\_ros\_pkgs} was created. They allow starting Gazebo as a ROS node that provides its functionality through ROS messages, services and parameters. They also contain various plugins for integrating sensors and a script for spawning a URDF model.
+
+    \textsf{gazebo\_ros\_control} package was created, in order to integrate Gazebo with \textsf{ros\_control} framework. It consists of the following elements:
+    \begin{itemize}
+        \item \textbf{RobotHWSim} -- a base class for writing a hardware abstraction layer for a simulated robot model,
+        \item \textbf{DefaultRobotHWSim} -- a generic implementation of the RobotHWSim interface. It reads transmission tags from URDF to link actuators to joints,
+        \item \textbf{gazebo\_ros\_control plugin} -- a plugin for Gazebo simulator that implements control loop for ros\_control. It uses Controller Manager and RobotHWSim. To use it, the user can add the following lines to the URDF file:
+        \lstinputlisting[language=XML]{lst/gazebo_ros_control.lst}
+        \textsf{robotSimType} specifies the RobotHWSim implementation to use in the control loop. The \mbox{DefaultRobotHWSim} is sufficient in most cases, but the user can write his own implementation.
+    \end{itemize}
 
     \begin{figure}[ht]
         \centering
-        \includegraphics[height=10cm]{img/gazebo_control.png}
-        \caption{Gazebo control (Source: \cite{gazebo:ros_control})}
+        \includegraphics[width=\textwidth]{img/gazebo_control.png}
+        \caption{Gazebo with ros\_control overview (Source: \cite{gazebo:ros_control})}
         \label{fig:gazebo_control}
     \end{figure}
+
+\pagebreak
 
     \subsection{RUBI}
 

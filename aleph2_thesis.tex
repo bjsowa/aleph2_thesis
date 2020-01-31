@@ -10,6 +10,7 @@
 \usepackage{lipsum}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{todonotes}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -36,6 +37,8 @@
 
 \newcommand{\oldrovername}{$\aleph_1$\ }
 \newcommand{\rovername}{$\aleph_2$\ }
+
+\newcommand{\todomma}[1]{\todo[author=mma]{#1}}
 
 \englishtitle   {Control software for the \fmlinebreak Aleph2 robot - a Mars rover prototype}
 \polishtitle    {Oprogramowanie do kontroli robota\fmlinebreak Aleph2 - prototypu łazika marsjańskiego}
@@ -95,7 +98,7 @@ Now, the team is focused on improving the \rovername rover (Fig. \ref{fig:lazik1
 \section{Motivation}
 Although the \oldrovername rover is a well-proven construction piece, its software responsible for robot control and communication with the hardware leaves a lot of room for improvement. The main problems identified are:
 \begin{itemize}
-    \item \textbf{Unstable implementation} - the software responsible for the drivetrain often fails to communicate with the motor drivers due to only partial implementation of the communication protocol and various race conditions.
+    \item \textbf{Unstable implementation} -\todomma{zamiast znaku półpauzy należy użyć znak dywizu --} the software responsible for the drivetrain often fails to communicate with the motor drivers due to only\todomma{słowo only zbędne} partial implementation of the communication protocol and various race conditions.
     \item \textbf{Hard-coded configuration} - all of the configuration (e.g. IDs of the motor drivers, joint names and limits) is embedded into the source code. This makes it needlessly difficult to reconfigure the programs after making changes to other robot subsystems (hardware or software).
     \item \textbf{Lack of abstraction layers} - the software does not provide any libraries for the implemented controllers or communication protocols. All of these components are placed into single executables. This makes it hard to reuse the code for other purposes.
 \end{itemize}
@@ -116,6 +119,7 @@ To address the aforementioned issues with the previous system, a set of design a
 This section describes some of the main concepts of technologies the software is based on, which are essential in order to understand certain parts of this thesis.
 
     \subsection{ROS}
+    \todomma{rozumiem, że to pochylenie oznacza cytowanie? zaznaczyłbym to własnymi kilkoma słowami, może na końcu, może na początku}
     \textit{The Robot Operating System (ROS) is a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.}
     \cite{ros:about}
 
@@ -127,7 +131,7 @@ This section describes some of the main concepts of technologies the software is
 
     The basic concepts of ROS include:
     \begin{itemize}
-        \item \textbf{Computation graph}\\
+        \item \textbf{Computation graph}\todomma{może użyć środowiska description zamiast itemize?}\\
         Peer-to-peer network of ROS nodes that are running in a computer cluster.
         \item \textbf{Nodes}\\
         Processes that perform computation. They can communicate with each other via topics, services or Parameter Server. A typical robot control system will consist of many nodes. For example, one for communication with the hardware, one that performs path planning, one that provides graphical interface, and so on.

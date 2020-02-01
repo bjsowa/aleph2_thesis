@@ -329,9 +329,46 @@ This section describes some of the main concepts of technologies the software is
 
 \chapter{Documentation of the ROS package stack}
 
+This chapter dives deeper into the ROS packages that are the subject of this thesis. It describes the content of each package, provided ROS nodes, launch files, scripts, configuration files, etc.
+
+It is worth to notice that the software for the \rovername robot is constantly evolving. The following documentation refers to the version of the software that was frozen for the purposes of the thesis and parts of it may be not up-to-date in the near future.
+
 \section{Overview of provided packages}
 
+    The base ROS package stack for controlling and simulating the \rovername robot includes the following packages:
+
+    \begin{itemize}
+        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_description}{\textbf{aleph2\_description}} -- 
+        contains the model of the \rovername robot in URDF format,
+        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_hardware_interface}{\textbf{aleph2\_hardware\_interface}} -- 
+        provides a hardware abstraction layer implementation for ros\_control framework and a control loop node,
+        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_bringup}{\textbf{aleph2\_bringup}} -- 
+        contains configuration, launch files and additional scripts for starting \rovername base functionality,
+        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_gazebo}{\textbf{aleph2\_gazebo}} -- 
+        contains configuration and launch files for simulating the \rovername robot in Gazebo.
+    \end{itemize}
+
+    The packages that are also required but are not available in the ROS distribution and are not the subject of this thesis include:
+
+    \begin{itemize}
+        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen}{\textbf{kacapopen}} -- 
+        provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
+        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver}{\textbf{nanotec\_driver}} -- 
+        contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with Nanotec motor drivers which are used extensively on the \rovername robot.
+        \item \href{https://github.com/acriaer/rubi_server}{\textbf{rubi\_server}} -- 
+        contains the server node for communication with RUBI-enabled boards and message definitions for the ROS side of the protocol.
+    \end{itemize}
+
+% \pagebreak
+
 \section{aleph2\_description}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{img/aleph2_description.pdf}
+    \caption{urdf tree of \rovername}
+    \label{fig:aleph2_description}
+\end{figure}
 
 \section{aleph2\_hardware\_interface}
 

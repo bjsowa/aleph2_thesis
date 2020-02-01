@@ -43,11 +43,11 @@
   morekeywords={name,filename}
 }
 
-% \lstdefinelanguage{myC++}
-% {
-%     language = C++,
-%     morecomment=[s]{.}{(}
-% }
+\lstdefinelanguage{rubiC}
+{
+    language = C,
+    morekeywords = {int32_t, bool_t}
+}
 
 \lstset{style=mystyle}
 
@@ -310,11 +310,22 @@ This section describes some of the main concepts of technologies the software is
 
     It consists of the following elements:
     \begin{itemize}
-        \item \textbf{rubi\_server} -- 
-        \item \textbf{rubi\_client} --
-        \item \textbf{rubi\_generic\_gui} -- 
+        \item \textbf{rubi\_server} -- a ROS node that keeps tracks of connected boards and provides their capabilities on ROS topics. It utilizes CAN (Common Area Network) interfaces by using custom-designed protocol to communicate with the boards.
+        \item \textbf{rubi\_client} -- a client library that implements the RUBI protocol. The current version of the library supports STM32 F-series microcontrollers and Linux.
+        \item \textbf{rubi\_generic\_gui} -- an RQt plugin that provides a dynamically generated user interface for connected RUBI boards.
 
     \end{itemize}
+
+    The usage of the framework is fairly simple. The client uses RUBI-specific macros to define fields which can either be read-only (server $\rightarrow$ client), write-only (server $\leftarrow$ client) or read-write (server $\leftrightarrow$ client). The fields are then accessible in the code as variables in the static memory of a program.
+
+    \lstinputlisting[language=rubiC]{lst/rubi_client.lst}
+
+    When the server connects to the board, it spawns topics that allow accessing the fields. For this example, the following topics would be created:
+
+    \lstinputlisting{lst/rubi_server.lst}
+
+    Whenever a value on the board has changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. Additional functionalities can be accessed by publishing an empty message on \textsf{reboot}, \textsf{sleep} or \textsf{wake} topics.
+
 
 \chapter{Documentation of the ROS package stack}
 

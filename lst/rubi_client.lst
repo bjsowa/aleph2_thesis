@@ -1,0 +1,5 @@
+RUBI_UNIVERSAL_BOARD("ExampleBoard", <additional_parameters>)
+
+RUBI_REGISTER_FIELD(led, RUBI_READONLY, bool_t)
+RUBI_REGISTER_FIELD(temperature, RUBI_WRITEONLY, int32_t)
+RUBI_REGISTER_FIELD(wind, RUBI_WRITEONLY, float, direction, speed)

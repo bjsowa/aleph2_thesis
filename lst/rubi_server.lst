@@ -1,0 +1,6 @@
+/rubi/boards/ExampleBoard/fields_from_board/temperature
+/rubi/boards/ExampleBoard/fields_from_board/wind
+/rubi/boards/ExampleBoard/fields_to_board/led
+/rubi/boards/ExampleBoard/reboot
+/rubi/boards/ExampleBoard/sleep
+/rubi/boards/ExampleBoard/wake

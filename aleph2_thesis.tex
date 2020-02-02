@@ -57,8 +57,9 @@
 % \fbox{
 \begin{minipage}[t]{6cm}
     #1
-    \strut
+    % \strut
 \end{minipage}
+\vspace{0.2cm}
 % }
 }
 
@@ -323,7 +324,8 @@ This section describes some of the main concepts of technologies the software is
 
     It consists of the following elements:
     \begin{itemize}
-        \item \textbf{rubi\_server} -- a ROS node that keeps tracks of connected boards and provides their capabilities on ROS topics. It utilizes CAN (Common Area Network) interfaces by using custom-designed protocol to communicate with the boards.
+        \item \textbf{rubi\_server} -- a ROS node that keeps track of connected devices (reffered in RUBI as \textit{boards}) and exposes their capabilities to ROS topics. It communicates with the boards using a custom protocol over CAN (Common Area Network) bus. 
+        % It utilizes CAN (Common Area Network) interfaces by using custom-designed protocol to communicate with the boards.
         \item \textbf{rubi\_client} -- a client library that implements the RUBI protocol. The current version of the library supports STM32 F-series microcontrollers and Linux.
         \item \textbf{rubi\_generic\_gui} -- an RQt plugin that provides a dynamically generated user interface for connected RUBI boards.
 
@@ -337,7 +339,9 @@ This section describes some of the main concepts of technologies the software is
 
     \lstinputlisting{lst/rubi_server.lst}
 
-    Whenever a value on the board has changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. Additional functionalities can be accessed by publishing an empty message on \textsf{reboot}, \textsf{sleep} or \textsf{wake} topics.
+    Whenever a value on the board has changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. \textsf{reboot}, \textsf{sleep} and \textsf{wake} topics provide additional functionality for managing the board state.
+
+    The result of using RUBI on \rovername rover is the ability to quickly integrate hot-pluggable physical devices with the ROS ecosystem without changing any of the code running on the robot's computer.
 
 
 \chapter{Documentation of the ROS package stack}
@@ -354,7 +358,7 @@ It is worth to notice that the software for the \rovername robot is constantly e
         \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_description}{\textbf{aleph2\_description}} -- 
         contains the model of the \rovername robot in URDF format,
         \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_hardware_interface}{\textbf{aleph2\_hardware\_interface}} -- 
-        provides a hardware abstraction layer implementation for ros\_control framework and a control loop node,
+        provides a hardware abstraction layer implementation for \textsf{ros\_control} framework and a control loop node,
         \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_bringup}{\textbf{aleph2\_bringup}} -- 
         contains configuration, launch files and additional scripts for starting \rovername base functionality,
         \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_gazebo}{\textbf{aleph2\_gazebo}} -- 
@@ -367,34 +371,37 @@ It is worth to notice that the software for the \rovername robot is constantly e
         \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen}{\textbf{kacapopen}} -- 
         provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
         \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver}{\textbf{nanotec\_driver}} -- 
-        contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with Nanotec motor drivers which are used extensively on the \rovername robot.
+        contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with \textit{Nanotec} motor drivers which are used extensively on the \rovername robot.
         \item \href{https://github.com/acriaer/rubi_server}{\textbf{rubi\_server}} -- 
-        contains the server node for communication with RUBI-enabled boards and message definitions for the ROS side of the protocol.
+        contains the server node for communication with RUBI-enabled devices and message definitions for the ROS side of the protocol.
     \end{itemize}
 
 % \pagebreak
 
 \section{aleph2\_description}
 
+    The purpose of this package is to provide an URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and include mechanics. 
+
+    The package contents can be summarized by the following structure:
+
+    \vspace{0.5cm}
     \dirtree{%
         .1 aleph2\_description/.
             .2 meshes/
             \filedesc{3D models of robot parts in STL or COLLADA formats}.
             .2 textures/
-            \filedesc{textures}.
+            \filedesc{texture files used in RViz visualization}.
             .2 launch/
             \filedesc{launch files}.
-            .2 urdf/
-            \filedesc{urdf files}.
+            .2 urdf/.
                 .3 aleph2.urdf.xacro
-                \filedesc{main urdf}.
+                \filedesc{main xacro file}.
                 .3 aleph2.gazebo.xacro
-                \filedesc{gazebo references}.
-                .3 manip.urdf.xacro.
-                .3 zed.urdf.xacro.
-                .3 materials.urdf.xacro.
+                \filedesc{additional link and joint properties for simulation purposes in Gazebo}.
+                .3 *.xacro
+                \filedesc{other xacro files that are included by the main xacro file}.
                 .3 aleph2.urdf
-                \filedesc{An output urdf file generated from xacro files}.
+                \filedesc{An output urdf file generated from the main xacro file}.
             .2 rviz/ 
             \filedesc{configuration files for RViz}.
             .2 CMakeLists.txt.

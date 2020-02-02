@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{todonotes}
+\usepackage{dirtree}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -50,6 +51,18 @@
 }
 
 \lstset{style=mystyle}
+
+\newcommand{\filedesc}[1] {
+\dotfill
+% \fbox{
+\begin{minipage}[t]{6cm}
+    #1
+    \strut
+\end{minipage}
+% }
+}
+
+\setlength{\DTbaselineskip}{\baselineskip}
 
 \newcommand{\oldrovername}{$\aleph_1$\ }
 \newcommand{\rovername}{$\aleph_2$\ }
@@ -363,18 +376,55 @@ It is worth to notice that the software for the \rovername robot is constantly e
 
 \section{aleph2\_description}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{img/aleph2_description.pdf}
-    \caption{urdf tree of \rovername}
-    \label{fig:aleph2_description}
-\end{figure}
+    \dirtree{%
+        .1 aleph2\_description/.
+            .2 meshes/
+            \filedesc{3D models of robot parts in STL or COLLADA formats}.
+            .2 textures/
+            \filedesc{textures}.
+            .2 launch/
+            \filedesc{launch files}.
+            .2 urdf/
+            \filedesc{urdf files}.
+                .3 aleph2.urdf.xacro
+                \filedesc{main urdf}.
+                .3 aleph2.gazebo.xacro
+                \filedesc{gazebo references}.
+                .3 manip.urdf.xacro.
+                .3 zed.urdf.xacro.
+                .3 materials.urdf.xacro.
+                .3 aleph2.urdf
+                \filedesc{An output urdf file generated from xacro files}.
+            .2 rviz/ 
+            \filedesc{configuration files for RViz}.
+            .2 CMakeLists.txt.
+            .2 package.xml.
+    }
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{img/aleph2_description.pdf}
+        \caption{Visualization of the URDF model generated from the \textsf{aleph2.urdf} file}
+        \label{fig:aleph2_description}
+    \end{figure}
+
+    To provide an internal standard for writing the URDF model, a set of naming conventions for links and joints was established:
+
+    \begin{itemize} 
+        \item root link of the robot should be named \textsf{base\_link},
+        \item link names should end with a \textsf{\_link} keyword if the link has any visual; collision or physical properties,
+        \item if the link does not contain any properties and is only used as a reference frame, its name should contain a \textsf{\_frame} suffix,
+        \item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
+    \end{itemize}
+
+    \subsection{launch files}
+    \lipsum[1]
 
 \section{aleph2\_hardware\_interface}
 
-\section{aleph2\_gazebo}
-
 \section{aleph2\_bringup}
+
+\section{aleph2\_gazebo}
 
 \chapter{Usage}
 

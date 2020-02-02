@@ -324,7 +324,7 @@ This section describes some of the main concepts of technologies the software is
 
     It consists of the following elements:
     \begin{itemize}
-        \item \textbf{rubi\_server} -- a ROS node that keeps track of connected devices (reffered in RUBI as \textit{boards}) and exposes their capabilities to ROS topics. It communicates with the boards using a custom protocol over CAN (Common Area Network) bus. 
+        \item \textbf{rubi\_server} -- a ROS node that keeps track of connected devices (referred to in RUBI as \textit{boards}) and exposes their capabilities to ROS topics. It communicates with the boards using a custom protocol over CAN (Common Area Network) bus. 
         % It utilizes CAN (Common Area Network) interfaces by using custom-designed protocol to communicate with the boards.
         \item \textbf{rubi\_client} -- a client library that implements the RUBI protocol. The current version of the library supports STM32 F-series microcontrollers and Linux.
         \item \textbf{rubi\_generic\_gui} -- an RQt plugin that provides a dynamically generated user interface for connected RUBI boards.
@@ -403,29 +403,64 @@ It is worth to notice that the software for the \rovername robot is constantly e
                 .3 aleph2.urdf
                 \filedesc{An output urdf file generated from the main xacro file}.
             .2 rviz/ 
-            \filedesc{configuration files for RViz}.
+            \filedesc{display configuration files for RViz}.
             .2 CMakeLists.txt.
             .2 package.xml.
     }
+    \vspace{0.5cm}
 
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=\textwidth]{img/aleph2_description.pdf}
-        \caption{Visualization of the URDF model generated from the \textsf{aleph2.urdf} file}
-        \label{fig:aleph2_description}
-    \end{figure}
+    \subsection{Naming conventions}
 
-    To provide an internal standard for writing the URDF model, a set of naming conventions for links and joints was established:
+        To make sure the names across the model are consistent, a set of naming conventions for links and joints was established:
 
-    \begin{itemize} 
-        \item root link of the robot should be named \textsf{base\_link},
-        \item link names should end with a \textsf{\_link} keyword if the link has any visual; collision or physical properties,
-        \item if the link does not contain any properties and is only used as a reference frame, its name should contain a \textsf{\_frame} suffix,
-        \item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
-    \end{itemize}
+        \begin{itemize} 
+            \item root link of the robot should be named \textsf{base\_link},
+            \item link names should end with a \textsf{\_link} keyword if the link has any visual; collision or physical properties,
+            \item if the link does not contain any properties and is only used as a reference frame, its name should contain a \textsf{\_frame} suffix,
+            \item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
+        \end{itemize}
+
+        \begin{figure}[ht]
+            \centering
+            \captionsetup{margin=2cm}
+            \includegraphics[width=\textwidth]{img/aleph2_description.pdf}
+            \caption{A graph visualization of the URDF model generated from the \textsf{aleph2.urdf} file}
+            \label{fig:aleph2_description}
+        \end{figure}
+
+\pagebreak
 
     \subsection{launch files}
-    \lipsum[1]
+    
+        \begin{itemize}
+            \item \textbf{\textsf{rviz.launch}}\\
+            Starts an RViz instance with a specified display configuration
+
+            \textbf{Arguments}:
+            \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+                \item \textbf{rvizconfig} (\textsf{string}, default: \textsf{aleph2\_description/rviz/aleph2.rviz})\\
+                path to the RViz display configuration file. The default configuration shows the robot model with the root link as the fixed reference frame.
+            \end{itemize}
+
+            \item \textbf{\textsf{display.launch}}\\
+            Launches the 3D visualization of the \rovername robot in RViz with simulated joint states. It loads the \textsf{robot\_description} parameter to the Parameter Server, starts \textsf{robot\_state\_publisher} and \textsf{joint\_states\_publisher} nodes and includes \textsf{rviz.launch} file with default arguments.
+
+            \textbf{Arguments}:
+            \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+                \item \textbf{gui} (\textsf{bool}, default: \textsf{true})\\
+                If set to \textsf{true}, \textsf{joint\_state\_publisher} will spawn a gui that allows adjusting joint positions with sliders.
+                \item \textbf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
+                path to the URDF model in xacro format
+            \end{itemize}
+        \end{itemize}
+
+        \begin{figure}[ht]
+            \centering
+            \captionsetup{margin=2cm}
+            \includegraphics[width=\textwidth]{img/description_rviz.png}
+            \caption{Visualization of the \rovername robot in RViz}
+            \label{fig:description_rviz}
+        \end{figure}
 
 \section{aleph2\_hardware\_interface}
 

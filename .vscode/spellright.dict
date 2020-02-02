@@ -36,3 +36,6 @@ kacanopen
 CANopen
 hot-pluggable
 xacro
+gui
+bool
+rvizconfig

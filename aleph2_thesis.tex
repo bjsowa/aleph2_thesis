@@ -12,6 +12,7 @@
 \usepackage{color}
 \usepackage{todonotes}
 \usepackage{dirtree}
+\usepackage{float}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -20,19 +21,19 @@
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolor},
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{codered},
-    numberstyle=\tiny\color{codegray},
-    basicstyle=\ttfamily\scriptsize,
-    breakatwhitespace=false,
-    breaklines=true,
-    captionpos=b,
-    keepspaces=true,
-    numbers=none,
-    numbersep=5pt,
-    frame=single,
-    showstringspaces=false
+	backgroundcolor=\color{backcolor},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{codered},
+	numberstyle=\tiny\color{codegray},
+	basicstyle=\ttfamily\scriptsize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=none,
+	numbersep=5pt,
+	frame=single,
+	showstringspaces=false
 }
 
 \lstdefinelanguage{XML}
@@ -46,8 +47,8 @@
 
 \lstdefinelanguage{rubiC}
 {
-    language = C,
-    morekeywords = {int32_t, bool_t}
+	language = C,
+	morekeywords = {int32_t, bool_t}
 }
 
 \lstset{style=mystyle}
@@ -56,12 +57,13 @@
 \dotfill
 % \fbox{
 \begin{minipage}[t]{6cm}
-    #1
-    % \strut
+	#1
 \end{minipage}
 \vspace{0.2cm}
 % }
 }
+
+\newcommand{\val}[1]{\textbf{\textsf{#1}}}
 
 \setlength{\DTbaselineskip}{\baselineskip}
 
@@ -77,13 +79,13 @@
 %\date          {}
 
 \englishabstract{
-    The \oldrovername (pron. aleph one) robot is a Mars rover prototype being developed since 2015 by the student research group \textit{Continuum}, operating at the University of Wroclaw. One of the team's most outstanding achievements is 2nd place at the \textit{University Rover Challenge 2017}, where the rover proved itself well performing tasks in the desert in Utah.\\
-    The thesis focuses on the implementation of the hardware abstraction layer and the simulation environment created for the successor of the aforementioned robot, \rovername (pron. aleph two). The software is largely based on the use of the Robot Operating System (ROS), ros\_control framework and Gazebo simulator.
+	The \oldrovername (pron. aleph one) robot is a Mars rover prototype being developed since 2015 by the student research group \textit{Continuum}, operating at the University of Wroclaw. One of the team's most outstanding achievements is 2nd place at the \textit{University Rover Challenge 2017}, where the rover proved itself well performing tasks in the desert in Utah.\\
+	The thesis focuses on the implementation of the hardware abstraction layer and the simulation environment created for the successor of the aforementioned robot, \rovername (pron. aleph two). The software is largely based on the use of the Robot Operating System (ROS), ros\_control framework and Gazebo simulator.
 }
 
 \polishabstract{
-    Robot \oldrovername (czyt. alef jeden) to prototyp łazika marsjańskiego rozwijany od 2015 roku przez koło naukowe \textit{Continuum}, działające na Uniwersytecie Wrocławskim. Do jednych z najwybitniejszych osiągnięć drużyny można zaliczyć 2. miejsce na zawodach \textit{University Rover Challenge 2017}, gdzie łazik bardzo dobrze sprawdził się wykonując zadania na pustyni w Utah.\\    
-    Praca skupia się na implementacji warstwy abstrakcji sprzętowej oraz środowisku symulacyjnym stworzonych na potrzeby następcy wyżej wspomnianego robota, \rovername (czyt. alef dwa). Oprogramowanie opiera się w znacznym stopniu na wykorzystaniu Robot Operating System (ROS), frameworku ros\_control i symulatora Gazebo. 
+	Robot \oldrovername (czyt. alef jeden) to prototyp łazika marsjańskiego rozwijany od 2015 roku przez koło naukowe \textit{Continuum}, działające na Uniwersytecie Wrocławskim. Do jednych z najwybitniejszych osiągnięć drużyny można zaliczyć 2. miejsce na zawodach \textit{University Rover Challenge 2017}, gdzie łazik bardzo dobrze sprawdził się wykonując zadania na pustyni w Utah.\\    
+	Praca skupia się na implementacji warstwy abstrakcji sprzętowej oraz środowisku symulacyjnym stworzonych na potrzeby następcy wyżej wspomnianego robota, \rovername (czyt. alef dwa). Oprogramowanie opiera się w znacznym stopniu na wykorzystaniu Robot Operating System (ROS), frameworku ros\_control i symulatora Gazebo. 
 }
 
 \begin{document}
@@ -96,10 +98,10 @@ The \textit{Rover Challenge Series} is a series of such competitions run by the 
 
 The tasks on the competitions often include:
 \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-    \item Navigating through rough terrain
-    \item Picking up and transporting objects
-    \item Flipping switches on the control panel 
-    \item Collecting and examining soil samples
+	\item Navigating through rough terrain
+	\item Picking up and transporting objects
+	\item Flipping switches on the control panel 
+	\item Collecting and examining soil samples
 \end{itemize}
 
 \textit{Continuum} (also known as \textit{Team Continuum} or \textit{Continuum Rover Team}) is a student research club from University of Wroclaw whose main focus is to build and improve its Mars rover prototype and compete in the challenges. The team has operated since 2014 and debuted with the \oldrovername (pron. aleph one) robot, scoring 3rd place at \textit{University Rover Challenge 2016} and 2nd place at \textit{University Rover Challenge 2017}.
@@ -108,29 +110,29 @@ Now, the team is focused on improving the \rovername rover (Fig. \ref{fig:lazik1
 
 
 \begin{figure}[ht]
-    \hspace*{\fill}
-    \begin{minipage}{.45\textwidth}
-      \centering
-      \includegraphics[height=4cm]{img/lazik1.jpg}
-      \caption{The current appearance of the \rovername rover}
-      \label{fig:lazik1}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{.45\textwidth}
-      \centering
-      \includegraphics[height=4cm]{img/lazik2.jpg}
-      \caption{\rovername performing a task at the \textit{European Rover Challenge 2019}}
-      \label{fig:lazik2}
-    \end{minipage}
-    \hspace*{\fill}
+	\hspace*{\fill}
+	\begin{minipage}{.45\textwidth}
+	  \centering
+	  \includegraphics[height=4cm]{img/lazik1.jpg}
+	  \caption{The current appearance of the \rovername rover}
+	  \label{fig:lazik1}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{.45\textwidth}
+	  \centering
+	  \includegraphics[height=4cm]{img/lazik2.jpg}
+	  \caption{\rovername performing a task at the \textit{European Rover Challenge 2019}}
+	  \label{fig:lazik2}
+	\end{minipage}
+	\hspace*{\fill}
 \end{figure}
 
 \section{Motivation}
 Although the \oldrovername rover is a well-proven construction piece, its software responsible for robot control and communication with the hardware leaves a lot of room for improvement. The main problems identified are:
 \begin{itemize}
-    \item \textbf{Unstable implementation} -- the software responsible for the drivetrain often fails to communicate with the motor drivers due to  partial implementation of the communication protocol and various race conditions.
-    \item \textbf{Hard-coded configuration} -- all of the configuration (e.g. IDs of the motor drivers, joint names and limits) is embedded into the source code. This makes it needlessly difficult to reconfigure the programs after making changes to other robot subsystems (hardware or software).
-    \item \textbf{Lack of abstraction layers} -- the software does not provide any libraries for the implemented controllers or communication protocols. All of these components are placed into single executables. This makes it hard to reuse the code for other purposes.
+	\item \textbf{Unstable implementation} -- the software responsible for the drivetrain often fails to communicate with the motor drivers due to  partial implementation of the communication protocol and various race conditions.
+	\item \textbf{Hard-coded configuration} -- all of the configuration (e.g. IDs of the motor drivers, joint names and limits) is embedded into the source code. This makes it needlessly difficult to reconfigure the programs after making changes to other robot subsystems (hardware or software).
+	\item \textbf{Lack of abstraction layers} -- the software does not provide any libraries for the implemented controllers or communication protocols. All of these components are placed into single executables. This makes it hard to reuse the code for other purposes.
 \end{itemize}
 These issues, combined with the passion for robots, were the main reasons that led to the decision of making new control software for the \rovername rover.
 
@@ -138,335 +140,439 @@ These issues, combined with the passion for robots, were the main reasons that l
 To address the aforementioned issues with the previous system, a set of design assumptions that the new software has to meet has been defined. The main assumptions include:
 
 \begin{itemize}
-    \item \textbf{Extensive use of open source software} -- by relying on widely used and well tested open source projects, the software can become more stable and be developed faster.
-    \item \textbf{No hard-coded configuration} -- the programs should not assume much about the hardware they are running on. Instead, they should read the configuration at runtime. The configuration should be well-documented and easily editable.
-    \item \textbf{Hardware abstraction layer} -- the software should deliver an abstraction over the hardware it is communicating with by providing interfaces that define its capabilities. This should greatly improve the reusability of the code. 
-    \item \textbf{Simulation environment} -- the software should provide the ability to simulate the robot operation in a virtual world. The simulation should be able to run the same set of controllers (ideally, with the same configuration) and provide the same control interfaces as the real robot.
+	\item \textbf{Extensive use of open source software} -- by relying on widely used and well tested open source projects, the software can become more stable and be developed faster.
+	\item \textbf{No hard-coded configuration} -- the programs should not assume much about the hardware they are running on. Instead, they should read the configuration at runtime. The configuration should be well-documented and easily editable.
+	\item \textbf{Hardware abstraction layer} -- the software should deliver an abstraction over the hardware it is communicating with by providing interfaces that define its capabilities. This should greatly improve the reusability of the code. 
+	\item \textbf{Simulation environment} -- the software should provide the ability to simulate the robot operation in a virtual world. The simulation should be able to run the same set of controllers (ideally, with the same configuration) and provide the same control interfaces as the real robot.
 \end{itemize}
 
 
 \section{Used technologies}
 This section describes some of the main concepts of technologies the software is based on, which are essential in order to understand certain parts of this thesis.
 
-    \subsection{ROS}
-    \textit{The Robot Operating System (ROS) is a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.}
-    \cite{ros:about}
+	\subsection{ROS}
+	\begin{quote}
+		The Robot Operating System (ROS) is a flexible framework for writing robot software. It is a collection of tools, libraries, and conventions that aim to simplify the task of creating complex and robust robot behavior across a wide variety of robotic platforms.
+		\cite{ros:about}
+	\end{quote}
 
-    This is a brief overview of the concepts related to ROS. A more in-depth information, as well as tutorials, can be found in the documentation \cite{ros:documentation} and in books, such as \cite{ros:mastering}.
+	This is a brief overview of the concepts related to ROS. A more in-depth information, as well as tutorials, can be found in the documentation \cite{ros:documentation} and in books, such as \cite{ros:mastering}.
 
-    ROS was founded in 2007 by Willow Garage, a robotics research lab and technology incubator devoted to developing hardware and open source software for personal robotics applications \cite{ros:willowgarage}. In 2013, the project was taken over by the Open Source Robotics Foundation (OSRF), a non-profit organization founded by members of the global robotics community.
+	ROS was founded in 2007 by Willow Garage, a robotics research lab and technology incubator devoted to developing hardware and open source software for personal robotics applications \cite{ros:willowgarage}. In 2013, the project was taken over by the Open Source Robotics Foundation (OSRF), a non-profit organization founded by members of the global robotics community.
 
-    It is important to note that ROS in itself is not a real operating system (in the sense of process management) but rather a meta-operating system that runs on top of Unix-based platforms. It provides a layer for communication and management of processes running in a heterogeneous computer cluster (hence the term meta-operating system).
+	It is important to note that ROS in itself is not a real operating system (in the sense of process management) but rather a meta-operating system that runs on top of Unix-based platforms. It provides a layer for communication and management of processes running in a heterogeneous computer cluster (hence the term meta-operating system).
 
-    The basic concepts of ROS include:
-    \begin{description}[style=nextline]
-        \item [Computation graph] \hfill
-        Peer-to-peer network of ROS nodes that are running in a computer cluster.
-        \item [Nodes] 
-        Processes that perform computation. They can communicate with each other via topics, services or Parameter Server. A typical robot control system will consist of many nodes. For example, one for communication with the hardware, one that performs path planning, one that provides graphical interface, and so on.
-        \item [Topics] 
-        Named buses over which nodes exchange messages. Nodes do not assume the recipient of the messages they send. Instead, they \textit{publish} to the specified topic. The nodes that want to receive these messages can \textit{subscribe} to the same topic. There is no limit on publishers and subscribers, but only one message type can be sent to one topic.
-        \item [Services] 
-        Services are similar to topics, but instead of asynchronous stream of data, they allow for synchronous request / reply interactions. They allow one node to call a function that executes in another node and get the result. Two nodes cannot provide the service with the same name.
-        \item [Message types]
-        For two nodes to successfully communicate via topics or services, a message type definition has to be shared between them. Message types are defined by a simplified description format where a set of fields is listed. Each field contains a name and a type (either a built-in type, an array or another message). Service types use the same description format but both request and reply types are defined.
-        \item [Master]
-        A program that is essential to run the computation graph. It enables individual nodes to locate each other; keeps track of the running nodes, registered publishers, subscribers, services. The master also provides the Parameter Server.  
-        \item [Parameters]
-        Globally viewable data entries stored in the Parameter Server that can be retrieved by nodes at runtime. Their primary use is to store static, non-binary data such as configuration for the starting nodes.
-        \item [Launch files]
-        Describe a set of nodes to run together and parameters to load on the Parameter Server. They provide an easy way to start the whole subsystem by executing only one command. 
-        \item [URDF model]
-        Unified Robot Description Format (URDF) allows to represent the robot model in a human-readable format, which can be useful in the ROS ecosystem. The elements of the robot, together with their collision, inertial and physical properties, are described by \textit{links}. The connections between \textit{links} (parent and child) are specified by \textit{joints}. (see Fig. \ref{fig:husky}) 
-        \item [Packages]
-        Main unit for organizing software in ROS. A single package may contain nodes, libraries, message and service type definitions, launch files, URDF models, configuration files and other pieces of software that constitute a useful module. A package also typically defines its dependencies as either other ROS packages or ROS-independent tools, libraries.
+	The basic concepts of ROS include:
+	\begin{description}[style=nextline]
+		\item [Computation graph] \hfill
+		Peer-to-peer network of ROS nodes that are running in a computer cluster.
+		\item [Nodes] 
+		Processes that perform computation. They can communicate with each other via topics, services or Parameter Server. A typical robot control system will consist of many nodes. For example, one for communication with the hardware, one that performs path planning, one that provides graphical interface, and so on.
+		\item [Topics] 
+		Named buses over which nodes exchange messages. Nodes do not assume the recipient of the messages they send. Instead, they \textit{publish} to the specified topic. The nodes that want to receive these messages can \textit{subscribe} to the same topic. There is no limit on publishers and subscribers, but only one message type can be sent to one topic.
+		\item [Services] 
+		Services are similar to topics, but instead of asynchronous stream of data, they allow for synchronous request / reply interactions. They allow one node to call a function that executes in another node and get the result. Two nodes cannot provide the service with the same name.
+		\item [Message types]
+		For two nodes to successfully communicate via topics or services, a message type definition has to be shared between them. Message types are defined by a simplified description format where a set of fields is listed. Each field contains a name and a type (either a built-in type, an array or another message). Service types use the same description format but both request and reply types are defined.
+		\item [Master]
+		A program that is essential to run the computation graph. It enables individual nodes to locate each other; keeps track of the running nodes, registered publishers, subscribers, services. The master also provides the Parameter Server.  
+		\item [Parameters]
+		Globally viewable data entries stored in the Parameter Server that can be retrieved by nodes at runtime. Their primary use is to store static, non-binary data such as configuration for the starting nodes.
+		\item [Launch files]
+		Describe a set of nodes to run together and parameters to load on the Parameter Server. They provide an easy way to start the whole subsystem by executing only one command. 
+		\item [URDF model]
+		Unified Robot Description Format (URDF) allows to represent the robot model in a human-readable format, which can be useful in the ROS ecosystem. The elements of the robot, together with their collision, inertial and physical properties, are described by \textit{links}. The connections between \textit{links} (parent and child) are specified by \textit{joints}. (see Fig. \ref{fig:husky}) 
+		\item [Packages]
+		Main unit for organizing software in ROS. A single package may contain nodes, libraries, message and service type definitions, launch files, URDF models, configuration files and other pieces of software that constitute a useful module. A package also typically defines its dependencies as either other ROS packages or ROS-independent tools, libraries.
 
-    \end{description}
+	\end{description}
 
-    \begin{figure}[ht]
-        \centering
-        \captionsetup{margin=2cm}
-        \includegraphics[width=\textwidth]{img/rqt_graph.png}
-        \caption{An example visualization of ROS computation graph, created with  \href{http://wiki.ros.org/rqt_graph}{rqt\_graph} tool.}
-        \label{fig:ros_graph}
-    \end{figure}
+	\begin{figure}[ht]
+		\centering
+		\captionsetup{margin=2cm}
+		\includegraphics[width=\textwidth]{img/rqt_graph.png}
+		\caption{An example visualization of ROS computation graph, created with  \href{http://wiki.ros.org/rqt_graph}{rqt\_graph} tool.}
+		\label{fig:ros_graph}
+	\end{figure}
 
-    \begin{figure}[ht]
-        \centering
-        \captionsetup{margin=1cm}
-        \includegraphics[width=\textwidth]{img/leo_description.pdf}
-        \caption{An example visualization of URDF model of four-wheeled robot with a camera, created with \href{http://wiki.ros.org/urdf\#Visualization}{urdf\_to\_graphviz} tool. Black rectangles represent links and blue ovals represent joints.}
-        \label{fig:husky}
-    \end{figure}
-
-\pagebreak
-
-        \subsubsection{Built-in tools}
-        Apart from the communication libraries, the core ROS packages provide many useful utilities, such as command line tools:
-
-        \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-            \item \textbf{roscore} -- starts ROS Master, Parameter Server and \href{http://wiki.ros.org/rosout#rosout-1}{rosout} logging node,
-            \item \textbf{rosrun} -- runs a node located in an arbitrary package,
-            \item \textbf{roslaunch} - launches a set of nodes specified in a launch file, starts roscore if it is not running already,
-            \item \textbf{rosnode} -- lists and prints information about running nodes, pings or kills a specified node,
-            \item \textbf{rostopic} -- lists and prints information about active topics, displays messages published on a specified topic or publishes on one by itself,
-            \item \textbf{rosservice} -- lists and prints information about the advertised services, calls a service and displays the response,
-            \item \textbf{rosdep} -- downloads and installs the dependencies of a given package.
-        \end{itemize}
-        They also provide graphical tools:
-
-        \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-            \item \textbf{RQt} -- a framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions, such as publishing messages, displaying log messages, plotting data published on topics, visualizing the computation graph and many others,
-            \item \textbf{RViz} -- a 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used to interact with the robot via, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
-        \end{itemize}
-
-        \begin{figure}[ht]
-            \centering
-            \captionsetup{margin=2cm}
-            \includegraphics[height=6cm]{img/rqt.png}
-            \caption{An example screenshot of RQt (Source: \cite{ros:rqt})}
-            \label{fig:rqt}
-        \end{figure}
+	\begin{figure}[ht]
+		\centering
+		\captionsetup{margin=1cm}
+		\includegraphics[width=\textwidth]{img/leo_description.pdf}
+		\caption{An example visualization of URDF model of four-wheeled robot with a camera, created with \href{http://wiki.ros.org/urdf\#Visualization}{urdf\_to\_graphviz} tool. Black rectangles represent links and blue ovals represent joints.}
+		\label{fig:husky}
+	\end{figure}
 
 \pagebreak
 
-        \begin{figure}[ht]
-            \centering
-            \captionsetup{margin=2cm}
-            \includegraphics[height=6cm]{img/rviz_pr2.png}
-            \caption{RViz utilizing motion planning plugin to move the joints on the PR2 robot}
-            \label{fig:rviz_pr2}
-        \end{figure}
+		\subsubsection{Built-in tools}
+		Apart from the communication libraries, the core ROS packages provide many useful utilities, such as command line tools:
 
-    \subsection{ros\_control}
-    
-    \textit{The ros\_control framework provides the capability to implement and manage robot controllers with a focus on both real-time performance and sharing of controllers in a robot-agnostic way.} 
-    \cite{ros_control:paper}
-    
-    \textsf{ros\_control} (also referred as \textsf{ROS control}) was developed as a hardware independent version of \textsf{pr2\_controller\_manager}, which is a framework specific to the PR2 robot. Its core functionality can be summarized by the following components:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textbf{roscore} -- starts ROS Master, Parameter Server and \textsf{rosout} (\cite{ros:rosout}) logging node,
+			\item \textbf{rosrun} -- runs a node located in an arbitrary package,
+			\item \textbf{roslaunch} - launches a set of nodes specified in a launch file, starts roscore if it is not running already,
+			\item \textbf{rosnode} -- lists and prints information about running nodes, pings or kills a specified node,
+			\item \textbf{rostopic} -- lists and prints information about active topics, displays messages published on a specified topic or publishes on one by itself,
+			\item \textbf{rosservice} -- lists and prints information about the advertised services, calls a service and displays the response,
+			\item \textbf{rosdep} -- downloads and installs the dependencies of a given package.
+		\end{itemize}
+		They also provide graphical tools:
 
-    \begin{description}[style=nextline]
-        \item [Hardware interfaces]
-        Provide a standardized way for communication between controllers and the hardware abstraction layer by sharing resources across them. The most common hardware interfaces include: state interface (for getting the current joint state) and command interfaces (for sending command to the joints, such as effort, velocity or position commands).   
-        \item [RobotHW]
-        A base class for abstracting custom robot hardware. It provides functions to register and manage hardware interfaces and performs resource conflict checking. To implement a hardware abstraction layer for a robot, the user has to write a derived class that looks similar to this:
-        \lstinputlisting[language=C++]{lst/robot_hw.lst}
-        \item [Controllers]
-        Communicate with the hardware abstraction layer by accessing resources that are shared through hardware interfaces. Some example controller types available in \textsf{ros\_control} include:
-            \begin{itemize}
-                \item \textsf{joint\_state\_controller/JointStateController} - reads joint states and publishes them on a ROS topic; requires state interface,
-                \item \textsf{velocity\_controllers/JointVelocityController} - listens for velocity commands and forwards them to the hardware abstraction layer; requires velocity interface
-                \item \textsf{effort\_controllers/JointPositionController} - listens for position commands and forwards effort commands to the hardware abstraction layer; uses a closed-loop controller to get to joint to the specified position; requires effort and state interfaces
-            \end{itemize}
-        \item [Controller Manager]
-        Is responsible for managing the life cycle of the controllers. Provides its functionality through ROS services. It allows to list, load, unload, start or stop controllers. 
-        \begin{figure}[ht]
-            \centering
-            \includegraphics[height=3cm]{img/controller_life.png}
-            \caption{Life cycle of a controller (Source: \cite{ros_control:cm_wiki})}
-            \label{fig:controller_life}
-        \end{figure}
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textbf{RQt} -- a framework for GUI applications in ROS. It enables development of Qt-based widgets that can communicate with other nodes running in the system. The base plugins provide many useful functions, such as publishing messages, displaying log messages, plotting data published on topics, visualizing the computation graph and many others (see Fig. \ref{fig:rqt}),
+			\item \textbf{RViz} -- a 3D visualization tool for ROS. It provides plugins for displaying various things that the robot perceives, such as current state of the joints, camera images, data from the sensors, computed localization, occupancy map and many more. It can also be used to interact with the robot via, for example, navigation goal publishing or motion planning execution (see Fig. \ref{fig:rviz_pr2}).
+		\end{itemize}
 
-    \end{description}
+		\begin{figure}[ht]
+			\centering
+			\captionsetup{margin=2cm}
+			\includegraphics[height=6cm]{img/rqt.png}
+			\caption{An example screenshot of RQt (Source: \cite{ros:rqt})}
+			\label{fig:rqt}
+		\end{figure}
+
+\pagebreak
+
+		\begin{figure}[ht]
+			\centering
+			\captionsetup{margin=2cm}
+			\includegraphics[height=6cm]{img/rviz_pr2.png}
+			\caption{RViz utilizing motion planning plugin to move the joints on the PR2 robot}
+			\label{fig:rviz_pr2}
+		\end{figure}
+
+	\subsection{ros\_control}
+	
+	\begin{quote}
+		The ros\_control framework provides the capability to implement and manage robot controllers with a focus on both real-time performance and sharing of controllers in a robot-agnostic way.
+		\cite{ros_control:paper}
+	\end{quote}
+
+	\textsf{ros\_control} (also referred as \textsf{ROS control}) was developed as a hardware independent version of \textsf{pr2\_controller\_manager}, which is a framework specific to the PR2 robot. Its core functionality can be summarized by the following components:
+
+	\begin{description}[style=nextline]
+		\item [Hardware interfaces]
+		Provide a standardized way for communication between controllers and the hardware abstraction layer by sharing resources across them. The most common hardware interfaces include: state interface (for getting the current joint state) and command interfaces (for sending command to the joints, such as effort, velocity or position commands).   
+		\item [RobotHW]
+		A base class for abstracting custom robot hardware. It provides functions to register and manage hardware interfaces and performs resource conflict checking. To implement a hardware abstraction layer for a robot, the user has to write a derived class that looks similar to this:
+		\lstinputlisting[language=C++]{lst/robot_hw.lst}
+		\item [Controllers]
+		Communicate with the hardware abstraction layer by accessing resources that are shared through hardware interfaces. Some example controller types available in \textsf{ros\_control} include:
+			\begin{itemize}
+				\item \textsf{joint\_state\_controller/JointStateController} - reads joint states and publishes them on a ROS topic; requires state interface,
+				\item \textsf{velocity\_controllers/JointVelocityController} - listens for velocity commands and forwards them to the hardware abstraction layer; requires velocity interface
+				\item \textsf{effort\_controllers/JointPositionController} - listens for position commands and forwards effort commands to the hardware abstraction layer; uses a closed-loop controller to get to joint to the specified position; requires effort and state interfaces
+			\end{itemize}
+		\item [Controller Manager]
+		Is responsible for managing the life cycle of the controllers. Provides its functionality through ROS services. It allows to list, load, unload, start or stop controllers. 
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[height=3cm]{img/controller_life.png}
+			\caption{Life cycle of a controller (Source: \cite{ros_control:cm_wiki})}
+			\label{fig:controller_life}
+		\end{figure}
+
+	\end{description}
 
 % \pagebreak
-    
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=\textwidth]{img/ros_control.png}
-        \caption{ROS control overview (Source: \cite{ros_control:wiki})}
-        \label{fig:ros_control}
-    \end{figure}
+	
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=\textwidth]{img/ros_control.png}
+		\caption{ROS control overview (Source: \cite{ros_control:wiki})}
+		\label{fig:ros_control}
+	\end{figure}
 
-    \subsubsection{Control loop}
-    After writing the hardware abstraction layer for the robot, the user has to implement a control loop that utilizes the Controller Manager, in order to be able to load some controllers. A sample control loop may look similar to this:
+	\subsubsection{Control loop}
+	After writing the hardware abstraction layer for the robot, the user has to implement a control loop that utilizes the Controller Manager, in order to be able to load some controllers. A sample control loop may look similar to this:
 
-    \lstinputlisting[language=C++]{lst/control_loop.lst}
-
-\pagebreak
-
-    \subsection{Gazebo}
-    Gazebo provides an open-source 3D simulation environment, mainly for simulating robots. It incorporates a high-performance physics engines, such as Open Dynamics Engine (ODE), Bullet, Dynamic Animation and Robotics Toolkit (DART), etc. and supplies a realistic rendering of the environment. It can model robot behavior, as well as, various sensors, such as cameras, laser range finders, IMU, GPS.
-
-    Gazebo uses its own Simulation Description Format (SDF) to describe a simulation environment (the robots and the world they are moving in), but can also spawn URDF models at runtime. The URDF models need to have physical properties defined (mass, inertia, friction, etc.) and can use gazebo-specific tags to describe additional properties used in simulation.
-
-    \begin{figure}[ht]
-        \centering 
-        \captionsetup{margin=2.5cm} 
-        \includegraphics[height=8cm]{img/gazebo_pr2.png}
-        \caption{An example simulation of the PR2 robot for testing object grasp operation}
-        \label{fig:gazebo_pr2}
-    \end{figure}
-
-    \subsubsection{ROS and ros\_control integration}
-    To integrate Gazebo with ROS ecosystem, a set of ROS packages named \textsf{gazebo\_ros\_pkgs} was created. They allow starting Gazebo as a ROS node that provides its functionality through ROS messages, services and parameters. They also contain various plugins for integrating sensors and a script for spawning a URDF model.
-
-    \textsf{gazebo\_ros\_control} package was created, in order to integrate Gazebo with \textsf{ros\_control} framework. It consists of the following elements:
-    \begin{itemize}
-        \item \textbf{RobotHWSim} -- a base class for writing a hardware abstraction layer for a simulated robot model,
-        \item \textbf{DefaultRobotHWSim} -- a generic implementation of the RobotHWSim interface. It reads transmission tags from URDF to link actuators to joints,
-        \item \textbf{gazebo\_ros\_control plugin} -- a plugin for Gazebo simulator that implements control loop for ros\_control. It uses Controller Manager and RobotHWSim. To use it, the user can add the following lines to the URDF file:
-        \lstinputlisting[language=XML]{lst/gazebo_ros_control.lst}
-        \textsf{robotSimType} specifies the RobotHWSim implementation to use in the control loop. The \mbox{DefaultRobotHWSim} is sufficient in most cases, but the user can write his own implementation.
-    \end{itemize}
-
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=\textwidth]{img/gazebo_control.png}
-        \caption{Gazebo with ros\_control overview (Source: \cite{gazebo:ros_control})}
-        \label{fig:gazebo_control}
-    \end{figure}
+	\lstinputlisting[language=C++]{lst/control_loop.lst}
 
 \pagebreak
 
-    \subsection{RUBI}
-    Rover Universal Board Interface (RUBI) is a framework for easy, rapid and reliable integration of STM32 microcontroller-based devices with ROS. It was conceived by Cezary Siwek (former member of the \textit{Continuum} team) during works on \oldrovername as a way to quickly integrate sensor modules. It is continued to be used on the \rovername robot as a communication protocol for custom motor drivers.
+	\subsection{Gazebo}
+	Gazebo provides an open-source 3D simulation environment, mainly for simulating robots. It incorporates high-performance physics engines, such as Open Dynamics Engine (ODE), Bullet, Dynamic Animation and Robotics Toolkit (DART), etc. and supplies a realistic rendering of the environment. It can model robot behavior, as well as, various sensors, such as cameras, laser range finders, IMU, GPS.
 
-    It consists of the following elements:
-    \begin{itemize}
-        \item \textbf{rubi\_server} -- a ROS node that keeps track of connected devices (referred to in RUBI as \textit{boards}) and exposes their capabilities to ROS topics. It communicates with the boards using a custom protocol over CAN (Common Area Network) bus. 
-        % It utilizes CAN (Common Area Network) interfaces by using custom-designed protocol to communicate with the boards.
-        \item \textbf{rubi\_client} -- a client library that implements the RUBI protocol. The current version of the library supports STM32 F-series microcontrollers and Linux.
-        \item \textbf{rubi\_generic\_gui} -- an RQt plugin that provides a dynamically generated user interface for connected RUBI boards.
+	Gazebo uses its own Simulation Description Format (SDF) to describe a simulation environment (the robots and the world they are moving in), but can also spawn URDF models at runtime. The URDF models need to have physical properties defined (mass, inertia, friction, etc.) and can use gazebo-specific tags to describe additional properties used in simulation.
 
-    \end{itemize}
+	\begin{figure}[ht]
+		\centering 
+		\captionsetup{margin=2.5cm} 
+		\includegraphics[height=8cm]{img/gazebo_pr2.png}
+		\caption{An example simulation of the PR2 robot for testing object grasp operation}
+		\label{fig:gazebo_pr2}
+	\end{figure}
 
-    The usage of the framework is fairly simple. The client uses RUBI-specific macros to define fields which can either be read-only (server $\rightarrow$ client), write-only (server $\leftarrow$ client) or read-write (server $\leftrightarrow$ client). The fields are then accessible in the code as variables in the static memory of a program.
+	\subsubsection{ROS and ros\_control integration}
+	To integrate Gazebo with ROS ecosystem, a set of ROS packages named \textsf{gazebo\_ros\_pkgs} was created. They allow to start Gazebo as a ROS node that provides its functionality through ROS messages, services and parameters. They also contain various plugins for integrating sensors and a script for spawning a URDF model.
 
-    \lstinputlisting[language=rubiC]{lst/rubi_client.lst}
+	\textsf{gazebo\_ros\_control} package was created, in order to integrate Gazebo with \textsf{ros\_control} framework. It consists of the following elements:
+	\begin{itemize}
+		\item \textbf{RobotHWSim} -- a base class for writing a hardware abstraction layer for a simulated robot model,
+		\item \textbf{DefaultRobotHWSim} -- a generic implementation of the RobotHWSim interface. It reads transmission tags from URDF to link actuators to joints,
+		\item \textbf{gazebo\_ros\_control plugin} -- a plugin for Gazebo simulator that implements control loop for ros\_control. It uses Controller Manager and RobotHWSim. To use it, the user can add the following lines to the URDF file:
+		\lstinputlisting[language=XML]{lst/gazebo_ros_control.lst}
+		\textsf{robotSimType} specifies the RobotHWSim implementation to use in the control loop. The \mbox{DefaultRobotHWSim} is sufficient in most cases, but the user can write their own implementation.
+	\end{itemize}
 
-    When the server connects to the board, it spawns topics that allow accessing the fields. For this example, the following topics would be created:
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=\textwidth]{img/gazebo_control.png}
+		\caption{Gazebo with ros\_control overview (Source: \cite{gazebo:ros_control})}
+		\label{fig:gazebo_control}
+	\end{figure}
 
-    \lstinputlisting{lst/rubi_server.lst}
+\pagebreak
 
-    Whenever a value on the board has changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. \textsf{reboot}, \textsf{sleep} and \textsf{wake} topics provide additional functionality for managing the board state.
+	\subsection{RUBI}
+	Rover Universal Board Interface (RUBI) is a framework for easy, rapid and reliable integration of STM32 microcontroller-based devices with ROS. It was conceived by Cezary Siwek (former member of the \textit{Continuum} team) during works on \oldrovername as a way to quickly integrate sensor modules. It is continued to be used on the \rovername robot as a communication protocol for custom motor drivers.
 
-    The result of using RUBI on \rovername rover is the ability to quickly integrate hot-pluggable physical devices with the ROS ecosystem without changing any of the code running on the robot's computer.
+	It consists of the following elements:
+	\begin{itemize}
+		\item \val{rubi\_server} -- a ROS node that keeps track of connected devices (referred to in RUBI as \textit{boards}) and exposes their capabilities to ROS topics. It communicates with the boards using a custom protocol over CAN (Common Area Network) bus. 
+		% It utilizes CAN (Common Area Network) interfaces by using custom-designed protocol to communicate with the boards.
+		\item \val{rubi\_client} -- a client library that implements the RUBI protocol. The current version of the library supports STM32 F-series microcontrollers and Linux.
+		\item \val{rubi\_generic\_gui} -- an RQt plugin that provides a dynamically generated user interface for connected RUBI boards.
+
+	\end{itemize}
+
+	The usage of the framework is fairly simple. The client uses RUBI-specific macros to define fields which can either be read-only (server $\rightarrow$ client), write-only (server $\leftarrow$ client) or read-write (server $\leftrightarrow$ client). The fields are then accessible in the code as variables in the static memory of a program.
+
+	\lstinputlisting[language=rubiC]{lst/rubi_client.lst}
+
+	When the server connects to the board, it spawns topics that allow accessing the fields. For this example, the following topics would be created:
+
+	\lstinputlisting{lst/rubi_server.lst}
+
+	Whenever a value on the board has changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. \textsf{reboot}, \textsf{sleep} and \textsf{wake} topics provide additional functionality for managing the board state.
+
+	The result of using RUBI on \rovername rover is the ability to quickly integrate hot-pluggable physical devices with the ROS ecosystem without changing any of the code running on the robot's computer.
 
 
 \chapter{Documentation of the ROS package stack}
 
 This chapter dives deeper into the ROS packages that are the subject of this thesis. It describes the content of each package, provided ROS nodes, launch files, scripts, configuration files, etc.
 
-It is worth to notice that the software for the \rovername robot is constantly evolving. The following documentation refers to the version of the software that was frozen for the purposes of the thesis and parts of it may be not up-to-date in the near future.
+It is worth noticing that the software for the \rovername robot is constantly evolving. The following documentation refers to the version of the software that has been frozen for the purposes of the thesis and parts of it may be not up-to-date in the near future.
 
 \section{Overview of provided packages}
 
-    The base ROS package stack for controlling and simulating the \rovername robot includes the following packages:
+	The base ROS package stack for controlling and simulating the \rovername robot includes the following packages:
 
-    \begin{itemize}
-        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_description}{\textbf{aleph2\_description}} -- 
-        contains the model of the \rovername robot in URDF format,
-        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_hardware_interface}{\textbf{aleph2\_hardware\_interface}} -- 
-        provides a hardware abstraction layer implementation for \textsf{ros\_control} framework and a control loop node,
-        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_bringup}{\textbf{aleph2\_bringup}} -- 
-        contains configuration, launch files and additional scripts for starting \rovername base functionality,
-        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_gazebo}{\textbf{aleph2\_gazebo}} -- 
-        contains configuration and launch files for simulating the \rovername robot in Gazebo.
-    \end{itemize}
+	\begin{itemize}
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_description}{\textbf{aleph2\_description}} -- 
+		contains the model of the \rovername robot in URDF format,
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_hardware_interface}{\textbf{aleph2\_hardware\_interface}} -- 
+		provides a hardware abstraction layer implementation for \textsf{ros\_control} framework and a control loop node,
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_bringup}{\textbf{aleph2\_bringup}} -- 
+		contains configuration, launch files and additional scripts for starting \rovername base functionality,
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_gazebo}{\textbf{aleph2\_gazebo}} -- 
+		contains configuration and launch files for simulating the \rovername robot in Gazebo.
+	\end{itemize}
 
-    The packages that are also required but are not available in the ROS distribution and are not the subject of this thesis include:
+	The packages that are also required but not available in the ROS distribution and are not the subject of this thesis include:
 
-    \begin{itemize}
-        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen}{\textbf{kacapopen}} -- 
-        provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
-        \item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver}{\textbf{nanotec\_driver}} -- 
-        contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with \textit{Nanotec} motor drivers which are used extensively on the \rovername robot.
-        \item \href{https://github.com/acriaer/rubi_server}{\textbf{rubi\_server}} -- 
-        contains the server node for communication with RUBI-enabled devices and message definitions for the ROS side of the protocol.
-    \end{itemize}
+	\begin{itemize}
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen}{\val{kacapopen}} -- 
+		provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver}{\val{nanotec\_driver}} -- 
+		contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with \textit{Nanotec} motor drivers which are used extensively on the \rovername robot.
+		\item \href{https://github.com/acriaer/rubi_server}{\val{rubi\_server}} -- 
+		contains the server node for communication with RUBI-enabled devices and message definitions for the ROS side of the protocol,
+		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/messages/tree/master/power_msgs}{\val{power\_msgs}} -- contains the \textsf{PowerStatus} message definition that is used by the \textsf{power\_monitor} node.
+	\end{itemize}
 
 % \pagebreak
 
 \section{aleph2\_description}
 
-    The purpose of this package is to provide an URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and include mechanics. 
+	The purpose of this package is to provide an URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and include mechanics. 
 
-    The package contents can be summarized by the following structure:
+	The package contents can be summarized by the following structure:
 
-    \vspace{0.5cm}
-    \dirtree{%
-        .1 aleph2\_description/.
-            .2 meshes/
-            \filedesc{3D models of robot parts in STL or COLLADA formats}.
-            .2 textures/
-            \filedesc{texture files used in RViz visualization}.
-            .2 launch/
-            \filedesc{launch files}.
-            .2 urdf/.
-                .3 aleph2.urdf.xacro
-                \filedesc{main xacro file}.
-                .3 aleph2.gazebo.xacro
-                \filedesc{additional link and joint properties for simulation purposes in Gazebo}.
-                .3 *.xacro
-                \filedesc{other xacro files that are included by the main xacro file}.
-                .3 aleph2.urdf
-                \filedesc{An output urdf file generated from the main xacro file}.
-            .2 rviz/ 
-            \filedesc{display configuration files for RViz}.
-            .2 CMakeLists.txt.
-            .2 package.xml.
-    }
-    \vspace{0.5cm}
+	\vspace{0.5cm}
+	\dirtree{%
+		.1 aleph2\_description/.
+			.2 meshes/
+			\filedesc{3D models of robot parts in STL or COLLADA formats}.
+			.2 textures/
+			\filedesc{texture files used in RViz visualization}.
+			.2 launch/
+			\filedesc{launch files}.
+			.2 urdf/.
+				.3 aleph2.urdf.xacro
+				\filedesc{main xacro file}.
+				.3 aleph2.gazebo.xacro
+				\filedesc{additional link and joint properties for simulation purposes in Gazebo}.
+				.3 *.xacro
+				\filedesc{other xacro files that are included by the main xacro file}.
+				.3 aleph2.urdf
+				\filedesc{An output urdf file generated from the main xacro file}.
+			.2 rviz/ 
+			\filedesc{display configuration files for RViz}.
+			.2 CMakeLists.txt.
+			.2 package.xml.
+	}
+	\vspace{0.5cm}
 
-    \subsection{Naming conventions}
+	\subsection{Naming conventions}
 
-        To make sure the names across the model are consistent, a set of naming conventions for links and joints was established:
+		To make sure the names across the model are consistent, a set of naming conventions for links and joints has been established:
+		\begin{itemize} 
+			\item root link of the robot should be named \textsf{base\_link},
+			\item link names should end with a \textsf{\_link} keyword if the link has any visual; collision or physical properties,
+			\item if the link does not contain any properties and is only used as a reference frame, its name should contain a \textsf{\_frame} suffix,
+			\item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
+		\end{itemize}
 
-        \begin{itemize} 
-            \item root link of the robot should be named \textsf{base\_link},
-            \item link names should end with a \textsf{\_link} keyword if the link has any visual; collision or physical properties,
-            \item if the link does not contain any properties and is only used as a reference frame, its name should contain a \textsf{\_frame} suffix,
-            \item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
-        \end{itemize}
+	\subsection{Launch files}
+	
+		\begin{itemize}
+			\item \val{rviz.launch}\\
+			Starts an RViz instance with a specified display configuration (see Fig. \ref{fig:description_rviz})
 
-        \begin{figure}[ht]
-            \centering
-            \captionsetup{margin=2cm}
-            \includegraphics[width=\textwidth]{img/aleph2_description.pdf}
-            \caption{A graph visualization of the URDF model generated from the \textsf{aleph2.urdf} file}
-            \label{fig:aleph2_description}
-        \end{figure}
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textbf{rvizconfig} (\textsf{string}, default: \textsf{aleph2\_description/rviz/aleph2.rviz})\\
+				path to the RViz display configuration file. The default configuration shows the robot model with the root link as the fixed reference frame.
+			\end{itemize}
 
-\pagebreak
+			\item \val{display.launch}\\
+			Launches the 3D visualization of the \rovername robot in RViz with simulated joint states. It loads the \textsf{robot\_description} parameter to the Parameter Server, starts \textsf{robot\_state\_publisher} and \textsf{joint\_states\_publisher} nodes and includes \textsf{rviz.launch} file with default arguments.
 
-    \subsection{launch files}
-    
-        \begin{itemize}
-            \item \textbf{\textsf{rviz.launch}}\\
-            Starts an RViz instance with a specified display configuration
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textbf{gui} (\textsf{bool}, default: \textsf{true})\\
+				If set to \textsf{true}, \textsf{joint\_state\_publisher} will spawn a gui that allows adjusting joint positions with sliders.
+				\item \textbf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
+				path to the URDF model in xacro format
+			\end{itemize}
+		\end{itemize}
 
-            \textbf{Arguments}:
-            \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-                \item \textbf{rvizconfig} (\textsf{string}, default: \textsf{aleph2\_description/rviz/aleph2.rviz})\\
-                path to the RViz display configuration file. The default configuration shows the robot model with the root link as the fixed reference frame.
-            \end{itemize}
+	\begin{figure}[ht]
+		\centering
+		\captionsetup{margin=2cm}
+		\includegraphics[width=\textwidth]{img/aleph2_description.pdf}
+		\caption{A graph visualization of the URDF model generated from the \textsf{aleph2.urdf} file}
+		\label{fig:aleph2_description}
+	\end{figure}
 
-            \item \textbf{\textsf{display.launch}}\\
-            Launches the 3D visualization of the \rovername robot in RViz with simulated joint states. It loads the \textsf{robot\_description} parameter to the Parameter Server, starts \textsf{robot\_state\_publisher} and \textsf{joint\_states\_publisher} nodes and includes \textsf{rviz.launch} file with default arguments.
+	\begin{figure}[H]
+		\centering
+		\captionsetup{margin=2cm}
+		\includegraphics[width=\textwidth]{img/description_rviz.png}
+		\caption{Visualization of the \rovername robot in RViz}
+		\label{fig:description_rviz}
+	\end{figure}
 
-            \textbf{Arguments}:
-            \begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-                \item \textbf{gui} (\textsf{bool}, default: \textsf{true})\\
-                If set to \textsf{true}, \textsf{joint\_state\_publisher} will spawn a gui that allows adjusting joint positions with sliders.
-                \item \textbf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
-                path to the URDF model in xacro format
-            \end{itemize}
-        \end{itemize}
-
-        \begin{figure}[ht]
-            \centering
-            \captionsetup{margin=2cm}
-            \includegraphics[width=\textwidth]{img/description_rviz.png}
-            \caption{Visualization of the \rovername robot in RViz}
-            \label{fig:description_rviz}
-        \end{figure}
+% \pagebreak
 
 \section{aleph2\_hardware\_interface}
+TODO
 
 \section{aleph2\_bringup}
+TODO
+
+	\subsection{Nodes}
+		\begin{itemize}
+			\item \textbf{\textsf{power\_monitor}}\\
+			Periodically reads voltage and current from INA3221 monitors located at the Jetson TX2 board and publishes the measurements on a ROS topic.
+
+			\textbf{Published topics}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{power\_status} (type: \textsf{power\_msgs/PowerStatus})\\
+				cumulative reading from all INA monitors
+			\end{itemize}
+
+			\textbf{Parameters}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{$\sim$update\_rate} (\textsf{int}, default: \textsf{2})\\
+				frequency in Hz with which the readings are published
+			\end{itemize}
+
+			\item \textbf{\textsf{rosbag\_recorder}}\\
+			Records rosbags specified in private parameters and dumps all parameters in the Parameter Server to a YAML file.
+
+			\textbf{Parameters}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{$\sim$rosbags/\{name\}} (\textsf{string list})\\
+				list of topic names for rosbag \{name\}
+				\item \textsf{$\sim$active} (\textsf{string list})\\
+				names of rosbags to record
+				\item \textsf{$\sim$log\_folder} (\textsf{string}, default: \textsf{/var/log/ros/rosbags})\\
+				path of the directory where the files are stored. Parameters are dumped into \textsf{log\_folder/\{date\}/parameters.yaml} and each rosbag is recorded into \textsf{log\_folder/\{date\}/\{name\}.bag}
+			\end{itemize}
+		\end{itemize}
+
+	\subsection{Configuration files}
+
+	TODO
+
+	\vspace{0.5cm}
+	\dirtree{%
+		.1 aleph2\_bringup/.
+			.2 config/.
+				.3 drivetrain/.
+					.4 joints.yaml.
+					.4 joint\_limits.yaml.
+					.4 controllers.yaml.
+				.3 manip/.
+				.3 gimbal/.
+				.3 rosbags.yaml.
+	}
+
+	\vspace{0.5cm}
+
+	\subsection{Launch files}
+
+		\begin{itemize}
+			\item \val{drivetrain\_control.launch}\\
+			TODO
+
+			\item \val{manip\_control.launch}\\
+			TODO
+
+			\item \val{gimbal\_control.launch}\\
+			TODO
+
+			\item \val{rosbags.launch}\\
+			TODO
+
+			\item \val{aleph2\_bringup.launch}\\
+			TODO
+
+
+		\end{itemize}
 
 \section{aleph2\_gazebo}
+TODO
+
+\subsection{Configuration files}
+
+	\begin{itemize}
+		\item \val{pid\_gains.yaml}\\
+		TODO
+		\item \val{controllers.yaml}\\
+		TODO
+	\end{itemize}
+
+\subsection{Launch files}
+
+	\begin{itemize}
+		\item \val{world.launch}\\
+		TODO
+
+		\item \val{spawn\_model.launch}\\
+		TODO
+
+		\item \val{spawn\_controllers.launch}\\
+		TODO
+
+		\item \val{aleph2\_bringup.launch}\\
+		TODO
+
+	\end{itemize}
 
 \chapter{Usage}
 

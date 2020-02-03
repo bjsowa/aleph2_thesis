@@ -581,14 +581,16 @@ The purpose of this package is to provide a configuration that enables starting 
 		\end{itemize}
 
 \section{aleph2\_gazebo}
-TODO
+contains configuration and launch files for simulating the \rovername robot in Gazebo.
 
 \subsection{Configuration files}
 
 	\begin{itemize}
 		\item \val{pid\_gains.yaml}\\
-		TODO
+		the tuning of the PID controllers that are used by \textsf{gazebo\_ros\_control} plugin to simulate velocity-controlled joints.
 		\item \val{controllers.yaml}\\
+		
+		\item \val{aleph2.world}\\
 		TODO
 	\end{itemize}
 
@@ -598,14 +600,49 @@ TODO
 		\item \val{world.launch}\\
 		TODO
 
+		\textbf{Arguments}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{output} (\textsf{string}, default: \textsf{screen})\\
+			controls where the standard output of each started node is sent. Must be either \textsf{screen} or \textsf{log}.
+			\item \textsf{gui} (\textsf{bool}, default: \textsf{true})\\
+			whether to start Gazebo with a graphical interface.
+			\item \textsf{paused} (\textsf{bool}, default: \textsf{false})\\
+			if set to \textsf{true}, TODO
+			\item \textsf{use\_sim\_time} (\textsf{bool}, default: \textsf{true})\\
+			asdsa
+			\item \textsf{debug} (\textsf{bool}, default: \textsf{false})\\
+			sadas
+		\end{itemize}
+
 		\item \val{spawn\_model.launch}\\
 		TODO
+
+		\textbf{Arguments}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{output} (\textsf{string}, default: \textsf{screen})
+			\item \textsf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
+			path to the URDF model in xacro format
+			\item \textsf{fixed} (\textsf{bool}, default: \textsf{false})\\
+			if set to \textsf{true}, TODO
+		\end{itemize}
 
 		\item \val{spawn\_controllers.launch}\\
 		TODO
 
-		\item \val{aleph2\_bringup.launch}\\
+		\textbf{Arguments}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{output} (\textsf{string}, default: \textsf{screen})
+		\end{itemize}
+
+		\item \val{aleph2\_gazebo.launch}\\
 		TODO
+
+		\textbf{Arguments}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{output} (\textsf{string}, default: \textsf{log})
+			\item \textsf{gui} (\textsf{bool}, default: \textsf{true})\\
+			path to the URDF model in xacro format
+		\end{itemize}
 
 	\end{itemize}
 

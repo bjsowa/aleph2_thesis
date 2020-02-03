@@ -361,33 +361,30 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 	The base ROS package stack for controlling and simulating the \rovername robot includes the following packages:
 
 	\begin{itemize}
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_description}{\textbf{aleph2\_description}} -- 
+		\item \val{aleph2\_description} -- 
 		contains the model of the \rovername robot in URDF format,
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_hardware_interface}{\textbf{aleph2\_hardware\_interface}} -- 
+		\item \val{aleph2\_hardware\_interface} -- 
 		provides a hardware abstraction layer implementation for \textsf{ros\_control} framework and a control loop node,
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_bringup}{\textbf{aleph2\_bringup}} -- 
+		\item \val{aleph2\_bringup} -- 
 		contains configuration, launch files and additional scripts for starting \rovername base functionality,
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/aleph2_gazebo}{\textbf{aleph2\_gazebo}} -- 
+		\item \val{aleph2\_gazebo} -- 
 		contains configuration and launch files for simulating the \rovername robot in Gazebo.
 	\end{itemize}
 
 	The packages that are also required but not available in the ROS distribution and are not the subject of this thesis include:
 
 	\begin{itemize}
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen}{\val{kacapopen}} -- 
-		provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver}{\val{nanotec\_driver}} -- 
-		contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with \textit{Nanotec} motor drivers which are used extensively on the \rovername robot.
-		\item \href{https://github.com/acriaer/rubi_server}{\val{rubi\_server}} -- 
-		contains the server node for communication with RUBI-enabled devices and message definitions for the ROS side of the protocol,
-		\item \href{https://gitlab.continuum.ii.uni.wroc.pl/continuum/software/messages/tree/master/power_msgs}{\val{power\_msgs}} -- contains the \textsf{PowerStatus} message definition that is used by the \textsf{power\_monitor} node.
+		\item \val{kacapopen} -- provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
+		\item \val{nanotec\_driver} -- contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with \textit{Nanotec} motor drivers which are used extensively on the \rovername robot.
+		\item \val{rubi\_server} -- contains the server node for communication with RUBI-enabled devices and message definitions for the ROS side of the protocol,
+		\item \val{power\_msgs} -- contains the \textsf{PowerStatus} message definition that is used by the \textsf{power\_monitor} node.
 	\end{itemize}
 
 % \pagebreak
 
 \section{aleph2\_description}
 
-	The purpose of this package is to provide an URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and include mechanics. 
+	The purpose of this package is to provide an URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and by splitting the description into multiple files. 
 
 	The package contents can be summarized by the following structure:
 
@@ -426,6 +423,8 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 			\item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
 		\end{itemize}
 
+		TODO \ref{fig:aleph2_description}
+
 	\subsection{Launch files}
 	
 		\begin{itemize}
@@ -434,7 +433,7 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 
 			\textbf{Arguments}:
 			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-				\item \textbf{rvizconfig} (\textsf{string}, default: \textsf{aleph2\_description/rviz/aleph2.rviz})\\
+				\item \textsf{rvizconfig} (\textsf{string}, default: \textsf{aleph2\_description/rviz/aleph2.rviz})\\
 				path to the RViz display configuration file. The default configuration shows the robot model with the root link as the fixed reference frame.
 			\end{itemize}
 
@@ -443,9 +442,9 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 
 			\textbf{Arguments}:
 			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-				\item \textbf{gui} (\textsf{bool}, default: \textsf{true})\\
+				\item \textsf{gui} (\textsf{bool}, default: \textsf{true})\\
 				If set to \textsf{true}, \textsf{joint\_state\_publisher} will spawn a gui that allows adjusting joint positions with sliders.
-				\item \textbf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
+				\item \textsf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
 				path to the URDF model in xacro format
 			\end{itemize}
 		\end{itemize}
@@ -469,14 +468,17 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 % \pagebreak
 
 \section{aleph2\_hardware\_interface}
-TODO
+
+\subsection{Libraries}
+
+\subsection{Nodes}
 
 \section{aleph2\_bringup}
-TODO
+The purpose of this package is to provide a configuration that enables starting the base functionality of the \rovername rover. It contains configuration files in YAML format, ROS launch files and additional scripts (single-file nodes) that are applicable only to the real robot.
 
 	\subsection{Nodes}
 		\begin{itemize}
-			\item \textbf{\textsf{power\_monitor}}\\
+			\item \val{power\_monitor}\\
 			Periodically reads voltage and current from INA3221 monitors located at the Jetson TX2 board and publishes the measurements on a ROS topic.
 
 			\textbf{Published topics}:
@@ -491,7 +493,7 @@ TODO
 				frequency in Hz with which the readings are published
 			\end{itemize}
 
-			\item \textbf{\textsf{rosbag\_recorder}}\\
+			\item \val{rosbag\_recorder}\\
 			Records rosbags specified in private parameters and dumps all parameters in the Parameter Server to a YAML file.
 
 			\textbf{Parameters}:
@@ -511,15 +513,15 @@ TODO
 
 	\vspace{0.5cm}
 	\dirtree{%
-		.1 aleph2\_bringup/.
-			.2 config/.
+		.1 config/.
+			.2 control/.
 				.3 drivetrain/.
 					.4 joints.yaml.
 					.4 joint\_limits.yaml.
 					.4 controllers.yaml.
 				.3 manip/.
 				.3 gimbal/.
-				.3 rosbags.yaml.
+			.2 rosbags.yaml.
 	}
 
 	\vspace{0.5cm}
@@ -528,19 +530,52 @@ TODO
 
 		\begin{itemize}
 			\item \val{drivetrain\_control.launch}\\
-			TODO
+			Loads the drivetrain configuration to the Parameter Server, starts a control loop for the drivetrain subsystem, and loads the controllers to the Controller Manager. Starts \textsf{JointStateController} and \textsf{DiffDriveController}.
+
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{output} (\textsf{string}, default: \textsf{screen})\\
+				controls where the standard output of each started node is sent. Must be either \textsf{screen} or \textsf{log}.
+				\item \textsf{loop\_rate} (\textsf{int}, default: \textsf{20})\\
+				the rate in Hz at which the control loop is operating.
+			\end{itemize}
 
 			\item \val{manip\_control.launch}\\
-			TODO
+			Loads the manip configuration to the Parameter Server, starts a control loop for the manip subsystem, and loads the controllers to the Controller Manager. Starts \textsf{JointStateController} and \textsf{JointEffortController} for each joint.
+
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{output} (\textsf{string}, default: \textsf{screen})
+				\item \textsf{loop\_rate} (\textsf{int}, default: \textsf{30})
+			\end{itemize}
 
 			\item \val{gimbal\_control.launch}\\
-			TODO
+			Loads the gimbal configuration to the Parameter Server, starts a control loop for the gimbal subsystem, and loads the controllers to the Controller Manager. Starts \textsf{JointStateController} and \textsf{JointVelocityController} for each joint.
+
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{output} (\textsf{string}, default: \textsf{screen})
+				\item \textsf{loop\_rate} (\textsf{int}, default: \textsf{10})
+			\end{itemize}
 
 			\item \val{rosbags.launch}\\
-			TODO
+			Starts the \textsf{rosbag\_recorder} node with the configuration stored in the YAML file.
+
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{record\_cameras} (\textsf{bool}, default: \textsf{false})\\
+				by default, only \textsf{control} and \textsf{sensors} rosbags are started, if this parameters is set to \textsf{true}, the \textsf{cameras} rosbag is also started. 
+			\end{itemize}
 
 			\item \val{aleph2\_bringup.launch}\\
-			TODO
+			Starts the base functionality of the \rovername robot. It includes all the previous launch files and also loads the URDF model to the Parameter Server and starts \textsf{robot\_state\_publisher}, \textsf{rubi\_server} and \textsf{power\_monitor} nodes.
+
+			\textbf{Arguments}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{output} (\textsf{string}, default: \textsf{log})
+				\item \textsf{model} (\textsf{string}, default: \textsf{aleph2\_description/urdf/aleph2.urdf.xacro})\\
+				path to the URDF model in xacro format
+			\end{itemize}
 
 
 		\end{itemize}

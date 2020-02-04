@@ -384,7 +384,7 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 
 \section{aleph2\_description}
 
-	The purpose of this package is to provide an URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and by splitting the description into multiple files. 
+	The purpose of this package is to provide a URDF model of the \rovername robot that describes its visual, kinematic and physical properties. It uses \href{http://wiki.ros.org/xacro}{\textsf{xacro}} to make the description more human-readable, by using macros, math expressions, conditional blocks and by splitting the description into multiple files. 
 
 	The package contents can be summarized by the following structure:
 
@@ -468,10 +468,39 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 % \pagebreak
 
 \section{aleph2\_hardware\_interface}
+TODO
 
 \subsection{Libraries}
+	TODO
+
+	\subsubsection{aleph2\_joint}
+	TODO
+
+	\subsubsection{aleph2\_hw}
+	TODO
 
 \subsection{Nodes}
+
+	\begin{itemize}
+		\item \val{control\_loop}\\
+		TODO
+
+		\textbf{Published topics}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{$\sim$usage} (type: \textsf{std\_msgs/Float32})\\
+			the percent of the expected cycle time used. Calculated and published at the end of each cycle.
+		\end{itemize}
+
+		\textbf{Parameters}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{$\sim$loop\_rate} (\textsf{int}, default: \textsf{20})\\
+			frequency in Hz at which the control loop is operating.
+			\item \textsf{$\sim$spinner\_threads} (\textsf{int}, default: \textsf{4})\\
+			the number of threads used TODO
+			\item \textsf{$\sim$hw\_namespace} (\textsf{string})\\
+			If set, Aleph2HW and Controller Manager will use a relative namespace for ROS. TODO
+		\end{itemize}
+	\end{itemize}
 
 \section{aleph2\_bringup}
 The purpose of this package is to provide a configuration that enables starting the base functionality of the \rovername rover. It contains configuration files in YAML format, ROS launch files and additional scripts (single-file nodes) that are applicable only to the real robot.
@@ -581,7 +610,7 @@ The purpose of this package is to provide a configuration that enables starting 
 		\end{itemize}
 
 \section{aleph2\_gazebo}
-contains configuration and launch files for simulating the \rovername robot in Gazebo.
+contains configuration and launch files for simulating the \rovername robot in Gazebo. TODO
 
 \subsection{Configuration files}
 
@@ -589,7 +618,7 @@ contains configuration and launch files for simulating the \rovername robot in G
 		\item \val{pid\_gains.yaml}\\
 		the tuning of the PID controllers that are used by \textsf{gazebo\_ros\_control} plugin to simulate velocity-controlled joints.
 		\item \val{controllers.yaml}\\
-		
+		TODO
 		\item \val{aleph2.world}\\
 		TODO
 	\end{itemize}
@@ -609,9 +638,9 @@ contains configuration and launch files for simulating the \rovername robot in G
 			\item \textsf{paused} (\textsf{bool}, default: \textsf{false})\\
 			if set to \textsf{true}, TODO
 			\item \textsf{use\_sim\_time} (\textsf{bool}, default: \textsf{true})\\
-			asdsa
+			TODO
 			\item \textsf{debug} (\textsf{bool}, default: \textsf{false})\\
-			sadas
+			TODO
 		\end{itemize}
 
 		\item \val{spawn\_model.launch}\\
@@ -645,6 +674,14 @@ contains configuration and launch files for simulating the \rovername robot in G
 		\end{itemize}
 
 	\end{itemize}
+
+	\begin{figure}[ht]
+		\centering
+		\captionsetup{margin=2cm}
+		\includegraphics[width=\textwidth]{img/gazebo.png}
+		\caption{gazebo}
+		\label{fig:gazebo}
+	\end{figure}
 
 \chapter{Usage}
 

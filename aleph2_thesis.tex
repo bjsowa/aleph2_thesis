@@ -469,22 +469,40 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 % \pagebreak
 
 \section{aleph2\_hardware\_interface}
-TODO
+The package was created to provide an abstraction layer over the hardware running on \rovername that can be used with \textsf{ros\_control} framework. Although the abstraction was created for the needs of the aforementioned robot, its implementation is fully robot-agnostic and can be used with any configuration of the supported hardware.
 
 \subsection{Libraries}
-	TODO
+	\begin{itemize}
+		\item \val{aleph2\_joint}\\
+		Provides a set of classes that allow exposing capabilities of hardware controlling the joints of a robot via a common interface.
 
-	\subsubsection{aleph2\_joint}
-	TODO
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[width=\textwidth]{img/aleph2_joint.pdf}
+			\caption{class hierarchy diagram for the \textsf{aleph2\_joint library}}
+			\label{fig:aleph2_joint}
+		\end{figure}
 
-	\subsubsection{aleph2\_hw}
-	TODO
+		\begin{description}[style=nextline]
+			\item [Joint] A base class that provides a common interface for exposing capabilities of various joint types.
+			\item [NanotecJoint] A derived class that exposes capabilities of a joint controlled by a \textit{Nanotec} motor driver. Apart from implementing the \textsf{Joint} interface, it provides dynamically reconfigurable parameters (see \cite{dynamic_reconfigute:wiki}) that allow setting motor's power and passive brakes.
+			\item [RubiJoint] A derived class that exposes capabilities of a joint controlled by a RUBI-enabled board. It can implement any subset of the \textsf{Joint} interface by specifying only selected RUBI fields. If \textsf{home} field is specified, it creates a service which enables homing functionality for a joint.
+			\item [JointAddon] A base class for extending or modifying joint's capabilities. It uses a decorator design pattern to overwrite the behavior of certain functions from \textsf{Joint} interface.
+			\item [RubiEncoderAddon] A derived class that represents a RUBI-enabled position sensor. It overwrites the \textsf{getPosition()} method of a \textsf{Joint} instance.
+		\end{description}
+
+		\item \val{aleph2\_hw}\\
+		Provides the \textsf{Aleph2HW} class which implements \textsf{RobotHW} interface for \textsf{ros\_control} framework. Upon initialization, it reads the hardware configuration from the Parameter Server, creates corresponding \textsf{Joint} instances, creates state and command handles for the joints and registers hardware interfaces.
+
+		A sample configuration which explains the joint specification read by the \textsf{Aleph2HW} class can be found in the \textsf{config/template.yaml} file.
+
+	\end{itemize}
 
 \subsection{Nodes}
 
 	\begin{itemize}
 		\item \val{control\_loop}\\
-		TODO
+		Initializes \textsf{Aleph2HW} instance, creates Controller Manager and starts a control loop for the \textsf{ros\_control} framework. In each loop cycle, it reads the data from the hardware, updates all active controllers and writes commands to the hardware.
 
 		\textbf{Published topics}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
@@ -497,10 +515,12 @@ TODO
 			\item \textsf{$\sim$loop\_rate} (\textsf{int}, default: \textsf{20})\\
 			frequency in Hz at which the control loop is operating.
 			\item \textsf{$\sim$spinner\_threads} (\textsf{int}, default: \textsf{4})\\
-			the number of threads used TODO
+			the number of threads used to asynchronously process callbacks from ROS subscribers
 			\item \textsf{$\sim$hw\_namespace} (\textsf{string})\\
-			If set, Aleph2HW and Controller Manager will use a relative namespace for ROS. TODO
+			If set, Aleph2HW and Controller Manager will use a relative namespace for ROS node handles.
 		\end{itemize}
+
+		The node will also spawn additional topics and services used by the Controller Manager, loaded controllers and \textsf{Aleph2HW} joints.
 	\end{itemize}
 
 \section{aleph2\_bringup}

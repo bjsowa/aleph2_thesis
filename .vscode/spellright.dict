@@ -55,3 +55,5 @@ wheel_RL_joint
 GNSS
 odometry
 teleoperation
+reconfigurable
+Addon

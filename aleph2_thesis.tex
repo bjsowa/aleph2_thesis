@@ -56,10 +56,11 @@
 \newcommand{\filedesc}[1] {
 \dotfill
 % \fbox{
+\vspace{0.1cm}
 \begin{minipage}[t]{6cm}
 	#1
 \end{minipage}
-\vspace{0.2cm}
+\vspace{0.1cm}
 % }
 }
 
@@ -541,19 +542,93 @@ The purpose of this package is to provide a configuration that enables starting 
 	TODO
 
 	\vspace{0.5cm}
+	\begin{figure}[H] % prevent splitting across pages
 	\dirtree{%
 		.1 config/.
-			.2 control/.
+			.2 control/
+			\filedesc{Configuration files for the control software}.
 				.3 drivetrain/.
-					.4 joints.yaml.
-					.4 joint\_limits.yaml.
-					.4 controllers.yaml.
+					.4 joints.yaml
+					\filedesc{joints specification, read by the \textsf{Aleph2HW} instance}.
+					.4 joint\_limits.yaml
+					\filedesc{joint limits specification, read by the \textsf{Aleph2HW} instance}.
+					.4 controllers.yaml
+					\filedesc{a set of controllers with their parameters to load to the Controller Manager}.
 				.3 manip/.
 				.3 gimbal/.
-			.2 rosbags.yaml.
+			.2 rosbags.yaml
+			\filedesc{rosbag descriptions for the \textsf{rosbag\_recorder} node}.
 	}
+	\end{figure}
 
-	\vspace{0.5cm}
+
+	The configuration for the \rovername control software has been split into 3 subsystems:
+
+	\begin{itemize}
+		\item \val{drivetrain}\\
+		TODO
+
+		\textbf{Joints}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{wheel\_FL\_joint} (type: \textsf{nanotec})
+			\item \textsf{wheel\_FR\_joint} (type: \textsf{nanotec})
+			\item \textsf{wheel\_RL\_joint} (type: \textsf{nanotec})
+			\item \textsf{wheel\_RR\_joint} (type: \textsf{nanotec})
+		\end{itemize}
+
+		\textbf{Controllers}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{joint\_state\_controller/JointStateController}
+			\item \textsf{velocity\_controllers/JointVelocityController} -- one for each joint
+			\item \textsf{diff\_drive\_controller/DiffDriveController} 
+		\end{itemize}
+
+		\item \val{manip}\\
+		TODO
+
+		\textbf{Joints}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{manip\_base\_joint} (type: \textsf{rubi})
+			\item \textsf{manip\_shoulder\_joint} (type: \textsf{rubi})
+			\item \textsf{manip\_elbow\_joint} (type: \textsf{rubi})
+			\item \textsf{manip\_wrist\_tilt\_joint} (type: \textsf{rubi})
+			\item \textsf{manip\_wrist\_roll\_joint} (type: \textsf{rubi})
+			\item \textsf{manip\_gripper\_joint} (type: \textsf{rubi})
+		\end{itemize}
+
+		\textbf{Controllers}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{joint\_state\_controller/JointStateController}
+			\item \textsf{effort\_controllers/JointEffortController} -- one for each joint
+			\item \textsf{effort\_controllers/JointVelocityController} -- one for each joint 
+			\item \textsf{effort\_controllers/JointPositionController} -- one for each joint
+			\item \textsf{effort\_controllers/JointTrajectoryController}
+		\end{itemize}
+
+		\item \val{gimbal}\\
+		TODO
+
+		\textbf{Joints}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{gimbalN\_pan} (type: \textsf{rubi})
+			\item \textsf{gimbalN\_tilt} (type: \textsf{rubi})
+			\item \textsf{gimbalN\_zoom} (type: \textsf{rubi})
+			\item \textsf{gimbalN\_focus} (type: \textsf{rubi})
+		\end{itemize}
+
+		\textbf{Controllers}:
+		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+			\item \textsf{joint\_state\_controller/JointStateController}
+			\item \textsf{velocity\_controllers/JointVelocityController} -- one for each joint
+		\end{itemize}
+	\end{itemize}
+
+	The \textsf{rosbags.yaml} file contains definitions of the following rosbags:
+	\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+		\item \textsf{control} -- TODO
+		\item \textsf{sensors} -- TODO
+		\item \textsf{cameras} -- TODO
+	\end{itemize}
 
 	\subsection{Launch files}
 

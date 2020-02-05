@@ -421,10 +421,11 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 			\item root link of the robot should be named \textsf{base\_link},
 			\item link names should end with a \textsf{\_link} keyword if the link has any visual; collision or physical properties,
 			\item if the link does not contain any properties and is only used as a reference frame, its name should contain a \textsf{\_frame} suffix,
-			\item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword.
+			\item joint names should start with the name of the joint's child link (without the suffix) and end with a \textsf{\_joint} keyword,
+			\item if the joint mimics other joint (contains \textsf{mimic} tag), its name should end with \textsf{\_mimic\_joint} suffix.
 		\end{itemize}
 
-		TODO \ref{fig:aleph2_description}
+		Fig. \ref{fig:aleph2_description} shows the graph representation of the \rovername URDF model that follows to the established naming conventions.
 
 	\subsection{Launch files}
 	
@@ -775,7 +776,7 @@ This package was created to provide Gazebo-related functionality for the \rovern
 	\begin{figure}[ht]
 		\centering
 		\captionsetup{margin=2cm}
-		\includegraphics[width=\textwidth]{img/gazebo.png}
+		\includegraphics[width=0.85\textwidth]{img/gazebo.png}
 		\caption{\rovername model spawned in Gazebo simulated world}
 		\label{fig:gazebo}
 	\end{figure}

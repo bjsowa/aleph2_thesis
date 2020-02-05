@@ -1,0 +1,67 @@
+digraph G {
+node [shape=box, fontsize=20, margin=0];
+graph [ratio=0.7, fontsize=20];
+margin=0;
+"base_link" [label="base_link"];
+"manip_base_link" [label="manip_base_link"];
+"manip_shoulder_link" [label="manip_shoulder_link"];
+"manip_elbow_link" [label="manip_elbow_link"];
+"manip_wrist_link" [label="manip_wrist_link"];
+"manip_gripper_link" [label="manip_gripper_link"];
+"manip_effector_tip_frame" [label="manip_effector_tip_frame"];
+"manip_jaw_L_link" [label="manip_jaw_L_link"];
+"manip_jaw_R_link" [label="manip_jaw_R_link"];
+"mast_link" [label="mast_link"];
+"rocker_L_link" [label="rocker_L_link"];
+"wheel_FL_link" [label="wheel_FL_link"];
+"wheel_RL_link" [label="wheel_RL_link"];
+"rocker_R_link" [label="rocker_R_link"];
+"wheel_FR_link" [label="wheel_FR_link"];
+"wheel_RR_link" [label="wheel_RR_link"];
+"zed_camera_link" [label="zed_camera_link"];
+"zed_left_camera_frame" [label="zed_left_camera_frame"];
+"zed_left_camera_optical_frame" [label="zed_left_camera_optical_frame"];
+"zed_right_camera_frame" [label="zed_right_camera_frame"];
+"zed_right_camera_optical_frame" [label="zed_right_camera_optical_frame"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "manip_base_joint"
+"manip_base_joint" -> "manip_base_link"
+"manip_base_link" -> "manip_shoulder_joint"
+"manip_shoulder_joint" -> "manip_shoulder_link"
+"manip_shoulder_link" -> "manip_elbow_joint"
+"manip_elbow_joint" -> "manip_elbow_link"
+"manip_elbow_link" -> "manip_wrist_tilt_joint"
+"manip_wrist_tilt_joint" -> "manip_wrist_link"
+"manip_wrist_link" -> "manip_wrist_roll_joint"
+"manip_wrist_roll_joint" -> "manip_gripper_link"
+"manip_gripper_link" -> "manip_effector_tip_joint"
+"manip_effector_tip_joint" -> "manip_effector_tip_frame"
+"manip_gripper_link" -> "manip_gripper_joint"
+"manip_gripper_joint" -> "manip_jaw_L_link"
+"manip_gripper_link" -> "manip_gripper_mimic_joint"
+"manip_gripper_mimic_joint" -> "manip_jaw_R_link"
+"base_link" -> "mast_joint"
+"mast_joint" -> "mast_link"
+"base_link" -> "rocker_L_joint"
+"rocker_L_joint" -> "rocker_L_link"
+"rocker_L_link" -> "wheel_FL_joint"
+"wheel_FL_joint" -> "wheel_FL_link"
+"rocker_L_link" -> "wheel_RL_joint" 
+"wheel_RL_joint" -> "wheel_RL_link"
+"base_link" -> "rocker_R_joint" 
+"rocker_R_joint" -> "rocker_R_link"
+"rocker_R_link" -> "wheel_FR_joint" 
+"wheel_FR_joint" -> "wheel_FR_link"
+"rocker_R_link" -> "wheel_RR_joint"
+"wheel_RR_joint" -> "wheel_RR_link"
+"base_link" -> "zed_camera_joint"
+"zed_camera_joint" -> "zed_camera_link"
+"zed_camera_link" -> "zed_left_camera_joint"
+"zed_left_camera_joint" -> "zed_left_camera_frame"
+"zed_left_camera_frame" -> "zed_left_camera_optical_joint"
+"zed_left_camera_optical_joint" -> "zed_left_camera_optical_frame"
+"zed_camera_link" -> "zed_right_camera_joint" 
+"zed_right_camera_joint" -> "zed_right_camera_frame"
+"zed_right_camera_frame" -> "zed_right_camera_optical_joint"
+"zed_right_camera_optical_joint" -> "zed_right_camera_optical_frame"
+}

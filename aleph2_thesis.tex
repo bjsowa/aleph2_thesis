@@ -389,7 +389,7 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 
 	The package contents can be summarized by the following structure:
 
-	\vspace{0.5cm}
+	\begin{figure}[H]
 	\dirtree{%
 		.1 aleph2\_description/.
 			.2 meshes/
@@ -412,7 +412,7 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 			.2 CMakeLists.txt.
 			.2 package.xml.
 	}
-	\vspace{0.5cm}
+	\end{figure}
 
 	\subsection{Naming conventions}
 
@@ -539,9 +539,6 @@ The purpose of this package is to provide a configuration that enables starting 
 
 	\subsection{Configuration files}
 
-	TODO
-
-	\vspace{0.5cm}
 	\begin{figure}[H] % prevent splitting across pages
 	\dirtree{%
 		.1 config/.
@@ -566,7 +563,7 @@ The purpose of this package is to provide a configuration that enables starting 
 
 	\begin{itemize}
 		\item \val{drivetrain}\\
-		TODO
+		The \textsf{drivetrain} subsystem is responsible for robot's capability to navigate through terrain. It consists of 4 wheels controlled by \textit{Nanotec} motor drivers and uses differential drive kinematics for teleoperation.
 
 		\textbf{Joints}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
@@ -584,7 +581,7 @@ The purpose of this package is to provide a configuration that enables starting 
 		\end{itemize}
 
 		\item \val{manip}\\
-		TODO
+		A 5 degrees of freedom robotic arm attached to the \rovername rover. It uses  RUBI-enabled motor drivers to control the actuators.
 
 		\textbf{Joints}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
@@ -606,7 +603,7 @@ The purpose of this package is to provide a configuration that enables starting 
 		\end{itemize}
 
 		\item \val{gimbal}\\
-		TODO
+		The \textsf{gimbal} subsystem consists of 4 pan--tilt--zoom--focus cameras that are controlled by RUBI-enabled boards. 
 
 		\textbf{Joints}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
@@ -615,6 +612,7 @@ The purpose of this package is to provide a configuration that enables starting 
 			\item \textsf{gimbalN\_zoom} (type: \textsf{rubi})
 			\item \textsf{gimbalN\_focus} (type: \textsf{rubi})
 		\end{itemize}
+		where $N \in \{0,1,2,3\}$
 
 		\textbf{Controllers}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
@@ -625,9 +623,9 @@ The purpose of this package is to provide a configuration that enables starting 
 
 	The \textsf{rosbags.yaml} file contains definitions of the following rosbags:
 	\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-		\item \textsf{control} -- TODO
-		\item \textsf{sensors} -- TODO
-		\item \textsf{cameras} -- TODO
+		\item \textsf{control} -- data from the controllers, node logs, state of the robot
+		\item \textsf{sensors} -- sensor data, such as IMU, GNSS readings, odometry measurements, occupancy maps
+		\item \textsf{cameras} -- camera images, depth maps, point cloud data
 	\end{itemize}
 
 	\subsection{Launch files}

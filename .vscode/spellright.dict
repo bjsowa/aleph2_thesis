@@ -52,3 +52,6 @@ PID
 namespace
 GDB
 wheel_RL_joint
+GNSS
+odometry
+teleoperation

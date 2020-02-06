@@ -310,9 +310,9 @@ This section describes some of the main concepts of technologies the software is
 
 	\textsf{gazebo\_ros\_control} package was created, in order to integrate Gazebo with \textsf{ros\_control} framework. It consists of the following elements:
 	\begin{itemize}
-		\item \textbf{RobotHWSim} -- a base class for writing a hardware abstraction layer for a simulated robot model,
-		\item \textbf{DefaultRobotHWSim} -- a generic implementation of the RobotHWSim interface. It reads transmission tags from URDF to link actuators to joints,
-		\item \textbf{gazebo\_ros\_control plugin} -- a plugin for Gazebo simulator that implements control loop for ros\_control. It uses Controller Manager and RobotHWSim. To use it, the user can add the following lines to the URDF file:
+		\item \val{RobotHWSim} -- a base class for writing a hardware abstraction layer for a simulated robot model,
+		\item \val{DefaultRobotHWSim} -- a generic implementation of the RobotHWSim interface. It reads transmission tags from URDF to link actuators to joints,
+		\item \textbf{\textsf{gazebo\_ros\_control} plugin} -- a plugin for Gazebo simulator that implements control loop for ros\_control. It uses Controller Manager and RobotHWSim. To use it, the user can add the following lines to the URDF file:
 		\lstinputlisting[language=XML]{lst/gazebo_ros_control.lst}
 		\textsf{robotSimType} specifies the RobotHWSim implementation to use in the control loop. The \mbox{DefaultRobotHWSim} is sufficient in most cases, but the user can write their own implementation.
 	\end{itemize}
@@ -409,8 +409,8 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 				\filedesc{An output urdf file generated from the main xacro file}.
 			.2 rviz/ 
 			\filedesc{display configuration files for RViz}.
-			.2 CMakeLists.txt.
-			.2 package.xml.
+			% .2 CMakeLists.txt.
+			% .2 package.xml.
 	}
 	\end{figure}
 
@@ -527,37 +527,6 @@ The package was created to provide an abstraction layer over the hardware runnin
 \section{aleph2\_bringup}
 The purpose of this package is to provide a configuration that enables starting the base functionality of the \rovername rover. It contains configuration files in YAML format, ROS launch files and additional scripts (single-file nodes) that are applicable only to the real robot.
 
-	\subsection{Nodes}
-		\begin{itemize}
-			\item \val{power\_monitor}\\
-			Periodically reads voltage and current from INA3221 monitors located at the Jetson TX2 board and publishes the measurements on a ROS topic.
-
-			\textbf{Published topics}:
-			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-				\item \textsf{power\_status} (type: \textsf{power\_msgs/PowerStatus})\\
-				cumulative reading from all INA monitors
-			\end{itemize}
-
-			\textbf{Parameters}:
-			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-				\item \textsf{$\sim$update\_rate} (\textsf{int}, default: \textsf{2})\\
-				frequency in Hz with which the readings are published
-			\end{itemize}
-
-			\item \val{rosbag\_recorder}\\
-			Records rosbags specified in private parameters and dumps all parameters in the Parameter Server to a YAML file.
-
-			\textbf{Parameters}:
-			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-				\item \textsf{$\sim$rosbags/\{name\}} (\textsf{string list})\\
-				list of topic names for rosbag \{name\}
-				\item \textsf{$\sim$active} (\textsf{string list})\\
-				names of rosbags to record
-				\item \textsf{$\sim$log\_folder} (\textsf{string}, default: \textsf{/var/log/ros/rosbags})\\
-				path of the directory where the files are stored. Parameters are dumped into \textsf{log\_folder/\{date\}/parameters.yaml} and each rosbag is recorded into \textsf{log\_folder/\{date\}/\{name\}.bag}
-			\end{itemize}
-		\end{itemize}
-
 	\subsection{Configuration files}
 
 	\begin{figure}[H] % prevent splitting across pages
@@ -648,6 +617,37 @@ The purpose of this package is to provide a configuration that enables starting 
 		\item \textsf{sensors} -- sensor data, such as IMU, GNSS readings, odometry measurements, occupancy maps
 		\item \textsf{cameras} -- camera images, depth maps, point cloud data
 	\end{itemize}
+
+	\subsection{Nodes}
+		\begin{itemize}
+			\item \val{power\_monitor}\\
+			Periodically reads voltage and current from INA3221 monitors located at the Jetson TX2 board and publishes the measurements on a ROS topic.
+
+			\textbf{Published topics}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{power\_status} (type: \textsf{power\_msgs/PowerStatus})\\
+				cumulative reading from all INA monitors
+			\end{itemize}
+
+			\textbf{Parameters}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{$\sim$update\_rate} (\textsf{int}, default: \textsf{2})\\
+				frequency in Hz with which the readings are published
+			\end{itemize}
+
+			\item \val{rosbag\_recorder}\\
+			Records rosbags specified in private parameters and dumps all parameters in the Parameter Server to a YAML file.
+
+			\textbf{Parameters}:
+			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
+				\item \textsf{$\sim$rosbags/\{name\}} (\textsf{string list})\\
+				list of topic names for rosbag \{name\}
+				\item \textsf{$\sim$active} (\textsf{string list})\\
+				names of rosbags to record
+				\item \textsf{$\sim$log\_folder} (\textsf{string}, default: \textsf{/var/log/ros/rosbags})\\
+				path of the directory where the files are stored. Parameters are dumped into \textsf{log\_folder/\{date\}/parameters.yaml} and each rosbag is recorded into \textsf{log\_folder/\{date\}/\{name\}.bag}
+			\end{itemize}
+		\end{itemize}
 
 	\subsection{Launch files}
 

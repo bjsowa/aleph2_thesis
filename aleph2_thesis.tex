@@ -784,7 +784,7 @@ This package was created to provide Gazebo-related functionality for the \rovern
 \chapter{Usage}
 
 \chapter{Conclusion}
-It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. TODO
+It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It provides a great base for students to develop the rover further. 
 
 \section{Ways to improve the software}
 The software is very useful as it is but some parts of it can be improved and certain functionalities can be added. The following problems (with their solutions) have been identified: 
@@ -798,6 +798,15 @@ The software is very useful as it is but some parts of it can be improved and ce
 \end{itemize}
 
 \section{Next steps}
+There is a couple of steps to be taken, in order to prepare the robot for the competition challenges. The steps include:
+
+\begin{itemize}
+	\item \textbf{Integrating sensors} -- adding sensors, such as IMU or GNSS to the real robot; integrating the sensors with the URDF model and adding Gazebo plugins that simulate their behavior; making sure the ROS API between the real and simulated sensor is compatible,
+	\item \textbf{Simulating challenge tasks} -- creating a simulation environments (worlds) for Gazebo that simulate the tasks the robot will have to accomplish on competition challenges.
+	\item \textbf{Integrating the robotic arm with MoveIt} -- creating a configuration package for MoveIt Motion Planning Framework that would make use of the \textsf{\mbox{JointTrajectoryController}} running in the \textsf{manip} subsystem; creating an IKFast Kinematics Solver plugin for the arm,
+	\item \textbf{Modeling the kinematic chain of the suspension} -- adding position sensors to the rover's suspension mechanism; modyfing the URDF model so that the exact state of the rockers and differential bar can be visualized by the sensors readings; simulating the rocker suspension in Gazebo by modeling a closed-loop kinematic chain.
+\end{itemize}
+
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}

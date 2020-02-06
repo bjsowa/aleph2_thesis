@@ -784,17 +784,17 @@ This package was created to provide Gazebo-related functionality for the \rovern
 \chapter{Usage}
 
 \chapter{Conclusion}
-It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. 
+It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. TODO
 
 \section{Ways to improve the software}
+The software is very useful as it is but some parts of it can be improved and certain functionalities can be added. The following problems (with their solutions) have been identified: 
 
 \begin{itemize}
-	\item TODO % incompatible ROS API - controller manager
-	\item TODO % controllers for additional functionalities
-	\item TODO % Nanotec only velocity interface
-	\item TODO % joint mode controller
-	\item TODO % separate joint specification
-	\item TODO % joints and actuators separation
+	\item The \textsf{Joint} instances created by \textsf{Aleph2HW} expose additional functionalities to the ROS ecosystem. This breaks a little the concept of \textsf{ros\_control} framework that assumes the capabilities of a robot are exposed only by the hardware interfaces and can be accessed only by the controllers loaded by the Controller Manager. A proper solution would be to create appropriate hardware interfaces and implement them in \textsf{Aleph2HW} and then load controllers that would expose these additional capabilities to ROS topics, services or parameters.  
+	\item The \textsf{gazebo\_ros\_control} spawns one Controller Manager instance for all subsystems of the robot, but the configuration for the real robot assumes one control loop for each subsystem and thus multiple Controller Manager instances in different namespaces. This results in the ROS API between the real and simulated robot not being fully-compatible. An easy solution that addresses this issue has not been found yet.
+	\item \textit{Nanotec} motor drivers can be operated in several modes that include Torque (effort), Velocity or Position. Despite that, the \textsf{Aleph2HW} class starts every \textsf{Nanotec} joint in Velocity mode and registers handles only for the velocity interface. The best fix for this issue would be to add a \textsf{mode} parameter to the \textsf{Nanotec} joint specification that sets the operation mode and registered hardware interface.
+	\item The hardware abstraction supports changing the operation mode of a joint at runtime but it does not respect the fact that certain joint types may need an additional method call to change the operation mode. Adding a \textsf{setMode()} method to \textsf{Joint} interface and implementing it in derived classes may be a good solution.
+	\item The \textsf{Aleph2HW} implementation does not differentiate between joints and actuators. It assumes there is a one-to-one mapping of joint position, effort etc. Perhaps a better solution would be to read only the actuator specification and use \textsf{ros\_control} transmissions, populated from URDF \textsf{transmission} tags, to link actuators to joints.
 \end{itemize}
 
 \section{Next steps}

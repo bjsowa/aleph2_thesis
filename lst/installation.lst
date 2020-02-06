@@ -1,0 +1,24 @@
+mkdir -p ~/ros_ws/src
+cd ~/ros_ws
+
+catkin init
+catkin config --extend /opt/ros/melodic
+
+git clone https://github.com/acriaer/rubi_server.git
+git clone http://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen.git
+git clone http://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver.git
+git clone http://gitlab.continuum.ii.uni.wroc.pl/continuum/software/power_msgs.git
+
+sudo apt update
+rosdep update
+
+cd ~/ros_ws
+rosdep install --from-paths src -iry
+
+catkin config --install -i /path/to/install/space
+
+catkin build
+
+source ~/ros_ws/devel/setup.bash
+source /path/to/install/space/setup.bash
+

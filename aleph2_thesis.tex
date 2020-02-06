@@ -781,7 +781,23 @@ This package was created to provide Gazebo-related functionality for the \rovern
 		\label{fig:gazebo}
 	\end{figure}
 
-\chapter{Usage}
+\chapter{Usage instructions}
+The software was designed to be used with \textsf{NVIDIA Jetson TX2} board which is the main computer on the \rovername rover. It can, however, work with basically any system that supports ROS. This chapter contains instructions on how to install the software and use its functionalities described in the documentation. 
+
+The instructions were tested on \textsf{Ubuntu 18.04} system which is the main supported platform by the latest ROS distribution (at the time this thesis was written). The process of installation may be slightly different for other distributions.
+
+\section{Installation}
+Before building the packages, the following prerequisites need to be installed:
+
+\begin{itemize}
+	\item \val{ROS Melodic} -- at least the \textsf{ros\_base} package stack, see the official ROS Wiki page \cite{usage:ros_installation} for installation instructions,
+	\item \val{rosdep} -- a command-line tool for installing system dependencies \cite{usage:rosdep}. Available in ROS repository as \textsf{python-rosdep} package.
+	\item \val{catkin-tools} -- a package that provides command line tools for working with ROS buildsystem \cite{usage:catkin}. Available in ROS repository as \textsf{python-catkin-tools} package.
+\end{itemize}
+
+\lstinputlisting[language=bash, firstline=1, lastline=2]{lst/installation.lst}
+
+\section{Launching}
 
 \chapter{Conclusion}
 It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It provides a great base for students to develop the rover further. 

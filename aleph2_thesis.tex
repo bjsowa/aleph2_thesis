@@ -73,8 +73,8 @@
 
 \newcommand{\todomma}[1]{\todo[author=mma]{#1}}
 
-\englishtitle   {Control software for the \fmlinebreak Aleph2 robot - a Mars rover prototype}
-\polishtitle    {Oprogramowanie do kontroli robota\fmlinebreak Aleph2 - prototypu łazika marsjańskiego}
+\englishtitle   {Control software for the \fmlinebreak Aleph2 robot -- a Mars rover prototype}
+\polishtitle    {Oprogramowanie do kontroli robota\fmlinebreak Aleph2 -- prototypu łazika marsjańskiego}
 \author         {Błażej Sowa}
 \advisor        {dr Marek Materzok}
 %\date          {}
@@ -210,7 +210,7 @@ This section describes some of the main concepts of technologies the software is
 		Apart from the communication libraries, the core ROS packages provide many useful utilities, such as command line tools:
 
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
-			\item \textbf{roscore} -- starts ROS Master, Parameter Server and \textsf{rosout} (\cite{ros:rosout}) logging node,
+			\item \textbf{roscore} -- starts ROS Master, Parameter Server and \textsf{rosout} \cite{ros:rosout} logging node,
 			\item \textbf{rosrun} -- runs a node located in an arbitrary package,
 			\item \textbf{roslaunch} - launches a set of nodes specified in a launch file, starts roscore if it is not running already,
 			\item \textbf{rosnode} -- lists and prints information about running nodes, pings or kills a specified node,
@@ -375,7 +375,7 @@ It is worth noticing that the software for the \rovername robot is constantly ev
 	The packages that are also required but not available in the ROS distribution and are not the subject of this thesis include:
 
 	\begin{itemize}
-		\item \val{kacapopen} -- provides a set of libraries for communication with devices that implement the CANopen protocol (\cite{kacanopen2016}). The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
+		\item \val{kacanopen} -- provides a set of libraries for communication with devices that implement the CANopen protocol \cite{kacanopen2016}. The package was adapted by the \textit{Continuum} team to follow a file structure that is more consistent with the ROS ecosystem. 
 		\item \val{nanotec\_driver} -- contains a C++ library that utilizes \textsf{kacanopen} to provide an interface for communication with \textit{Nanotec} motor drivers which are used extensively on the \rovername robot.
 		\item \val{rubi\_server} -- contains the server node for communication with RUBI-enabled devices and message definitions for the ROS side of the protocol,
 		\item \val{power\_msgs} -- contains the \textsf{PowerStatus} message definition that is used by the \textsf{power\_monitor} node.

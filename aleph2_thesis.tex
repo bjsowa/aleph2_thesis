@@ -137,7 +137,7 @@ Although the \oldrovername rover is a well-proven construction piece, its softwa
 \end{itemize}
 These issues, combined with the passion for robots, were the main reasons that led to the decision of making new control software for the \rovername rover.
 
-\section{Goals}
+\section{Goals} \label{goals}
 To address the aforementioned issues with the previous system, a set of design assumptions that the new software has to meet has been defined. The main assumptions include:
 
 \begin{itemize}
@@ -740,7 +740,7 @@ This package was created to provide Gazebo-related functionality for the \rovern
 		\end{itemize}
 
 		\item \val{spawn\_model.launch}\\
-		Loads the URDF model to the Parameter Server and spawns the robot in a simulated world.
+		Loads the URDF model to the Parameter Server and spawns the robot in a simulated world. The default model launches the \textsf{gazebo\_ros\_control} plugin with \textsf{DefaultRobotHWSim} implementation.
 
 		\textbf{Arguments}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
@@ -784,6 +784,20 @@ This package was created to provide Gazebo-related functionality for the \rovern
 \chapter{Usage}
 
 \chapter{Conclusion}
+It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. 
+
+\section{Ways to improve the software}
+
+\begin{itemize}
+	\item TODO % incompatible ROS API - controller manager
+	\item TODO % controllers for additional functionalities
+	\item TODO % Nanotec only velocity interface
+	\item TODO % joint mode controller
+	\item TODO % separate joint specification
+	\item TODO % joints and actuators separation
+\end{itemize}
+
+\section{Next steps}
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}

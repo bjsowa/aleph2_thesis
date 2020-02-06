@@ -1,13 +1,20 @@
 main()
 {
-  MyRobot robot;
-  ControllerManager cm(&robot);
+    // initialize the robot hardware 
+    MyRobot robot;
 
-  while (true)
-  {
-     robot.read();
-     cm.update(robot.get_time(), robot.get_period());
-     robot.write();
-     sleep();
-  }
+    // create a Controller Manager instance
+    ControllerManager cm(&robot);
+
+    while (true)
+    {
+        // read data (state) from robot's hardware
+        robot.read(); 
+        // update running controllers
+        cm.update(robot.get_time(), robot.get_period());
+        // write data (commands) to the robot's hardware
+        robot.write();
+        // wait for the next loop cycle
+        sleep();
+    }
 }

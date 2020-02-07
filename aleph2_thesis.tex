@@ -51,7 +51,16 @@
 	morekeywords = {int32_t, bool_t}
 }
 
-\lstset{style=mystyle}
+\lstdefinelanguage{mybash}
+{
+	language = bash,
+	morekeywords = {mkdir, catkin, rosdep, apt}
+}
+
+\lstset{
+	style=mystyle,
+	literate={~} {$\sim$}{1}
+}
 
 \newcommand{\filedesc}[1] {
 \dotfill
@@ -342,11 +351,11 @@ This section describes some of the main concepts of technologies the software is
 
 	\lstinputlisting[language=rubiC]{lst/rubi_client.lst}
 
-	When the server connects to the board, it spawns topics that allow accessing the fields. For this example, the following topics would be created:
+	When the server connects to the board, it spawns topics that allow to access the fields. For this example, the following topics would be created:
 
 	\lstinputlisting{lst/rubi_server.lst}
 
-	Whenever a value on the board has changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. \textsf{reboot}, \textsf{sleep} and \textsf{wake} topics provide additional functionality for managing the board state.
+	Whenever a value on the board is changed, a new message is published on a corresponding \textsf{fields\_from\_board} topic. Publishing on a \textsf{fields\_to\_board} topic changes the value of the associated variable on the board. \textsf{reboot}, \textsf{sleep} and \textsf{wake} topics provide additional functionality for managing the board state.
 
 	The result of using RUBI on \rovername rover is the ability to quickly integrate hot-pluggable physical devices with the ROS ecosystem without changing any of the code running on the robot's computer.
 
@@ -357,7 +366,7 @@ This chapter dives deeper into the ROS packages that are the subject of this the
 
 It is worth noticing that the software for the \rovername robot is constantly evolving. The following documentation refers to the version of the software that has been frozen for the purposes of the thesis and parts of it may be not up-to-date in the near future.
 
-\section{Overview of provided packages}
+\section{Overview of provided packages} \label{overview}
 
 	The base ROS package stack for controlling and simulating the \rovername robot includes the following packages:
 
@@ -508,13 +517,13 @@ The package was created to provide an abstraction layer over the hardware runnin
 		\textbf{Published topics}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
 			\item \textsf{$\sim$usage} (type: \textsf{std\_msgs/Float32})\\
-			the percent of the expected cycle time used. Calculated and published at the end of each cycle.
+			the percentage of the expected cycle time used. Calculated and published at the end of each cycle.
 		\end{itemize}
 
 		\textbf{Parameters}:
 		\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
 			\item \textsf{$\sim$loop\_rate} (\textsf{int}, default: \textsf{20})\\
-			frequency in Hz at which the control loop is operating.
+			frequency (in Hz) at which the control loop is operating.
 			\item \textsf{$\sim$spinner\_threads} (\textsf{int}, default: \textsf{4})\\
 			the number of threads used to asynchronously process callbacks from ROS subscribers
 			\item \textsf{$\sim$hw\_namespace} (\textsf{string})\\
@@ -687,7 +696,7 @@ The purpose of this package is to provide a configuration that enables starting 
 			\textbf{Arguments}:
 			\begin{itemize}[itemsep=0pt, parsep=2pt, topsep=0pt]
 				\item \textsf{record\_cameras} (\textsf{bool}, default: \textsf{false})\\
-				by default, only \textsf{control} and \textsf{sensors} rosbags are started, if this parameters is set to \textsf{true}, the \textsf{cameras} rosbag is also started. 
+				by default, only \textsf{control} and \textsf{sensors} rosbags are started, if this parameter is set to \textsf{true}, the \textsf{cameras} rosbag is also started. 
 			\end{itemize}
 
 			\item \val{aleph2\_bringup.launch}\\
@@ -784,10 +793,12 @@ This package was created to provide Gazebo-related functionality for the \rovern
 \chapter{Usage instructions}
 The software was designed to be used with \textsf{NVIDIA Jetson TX2} board which is the main computer on the \rovername rover. It can, however, work with basically any system that supports ROS. This chapter contains instructions on how to install the software and use its functionalities described in the documentation. 
 
-The instructions were tested on \textsf{Ubuntu 18.04} system which is the main supported platform by the latest ROS distribution (at the time this thesis was written). The process of installation may be slightly different for other distributions.
+The steps were tested on \textsf{Ubuntu 18.04} system which is the main platform supported by the latest ROS distribution (at the time this thesis was written). The process of installation may be slightly different for other distributions.
 
-\section{Installation}
-Before building the packages, the following prerequisites need to be installed:
+The instructions may use some terminology related to catkin workspaces that is explained in \cite{usage:workspace}.
+
+\section{Prerequisites}
+Before the packages can be built, the following dependencies need to be installed on the system:
 
 \begin{itemize}
 	\item \val{ROS Melodic} -- at least the \textsf{ros\_base} package stack, see the official ROS Wiki page \cite{usage:ros_installation} for installation instructions,
@@ -795,12 +806,52 @@ Before building the packages, the following prerequisites need to be installed:
 	\item \val{catkin-tools} -- a package that provides command line tools for working with ROS buildsystem \cite{usage:catkin}. Available in ROS repository as \textsf{python-catkin-tools} package.
 \end{itemize}
 
-\lstinputlisting[language=bash, firstline=1, lastline=2]{lst/installation.lst}
+You will also need to initialize \textsf{rosdep} sources:
+\begin{lstlisting}[language=mybash]
+sudo rosdep init
+\end{lstlisting}
+
+% \pagebreak
+
+\section{Building}
+
+\begin{enumerate}
+
+\item Start by creating the directories for the catkin workspace and the source space:
+\lstinputlisting[language=mybash, firstline=1, lastline=2]{lst/installation.lst}
+
+\item (Optionally) Set the workspace to explicitly extend the \textsf{melodic} result space:
+\lstinputlisting[language=mybash, firstline=5, lastline=5]{lst/installation.lst}
+
+\item Put the packages you want to build in the source space. For launching the simulation, only \textsf{aleph2\_description} and \textsf{aleph2\_gazebo} are required. If you want to build the whole package stack, you will need to download addition packages mentioned in \ref{overview}:
+\lstinputlisting[language=mybash, firstline=7, lastline=11]{lst/installation.lst}
+
+\item Update \textsf{apt} and \textsf{rosdep} package information:
+\lstinputlisting[language=mybash, firstline=13, lastline=14]{lst/installation.lst}
+
+\item Use \textsf{rosdep} to install system dependencies:
+\lstinputlisting[language=mybash, firstline=16, lastline=17]{lst/installation.lst}
+
+\item (Optionally) Specify the install directory if you want to use the install space:
+\lstinputlisting[language=mybash, firstline=19, lastline=19]{lst/installation.lst}
+
+\item Build the packages:
+\lstinputlisting[language=mybash, firstline=21, lastline=21]{lst/installation.lst}
+
+\item Source the environmental setup file from the result space:
+\lstinputlisting[language=mybash, firstline=23, lastline=23]{lst/installation.lst}
+If you used the install space:
+\lstinputlisting[language=mybash, firstline=24, lastline=24]{lst/installation.lst}
+
+\item (Optionally) Add the above line to \textsf{.bashrc} file to source the result space automatically at the start of every terminal session:
+\lstinputlisting[language=mybash, firstline=26, lastline=26]{lst/installation.lst}
+
+\end{enumerate}
 
 \section{Launching}
 
 \chapter{Conclusion}
-It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It provides a great base for students to develop the rover further. 
+It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It provides a great base for students to further develop the rover. 
 
 \section{Ways to improve the software}
 The software is very useful as it is but some parts of it can be improved and certain functionalities can be added. The following problems (with their solutions) have been identified: 
@@ -820,9 +871,8 @@ There is a couple of steps to be taken, in order to prepare the robot for the co
 	\item \textbf{Integrating sensors} -- adding sensors, such as IMU or GNSS to the real robot; integrating the sensors with the URDF model and adding Gazebo plugins that simulate their behavior; making sure the ROS API between the real and simulated sensor is compatible,
 	\item \textbf{Simulating challenge tasks} -- creating a simulation environments (worlds) for Gazebo that simulate the tasks the robot will have to accomplish on competition challenges.
 	\item \textbf{Integrating the robotic arm with MoveIt} -- creating a configuration package for MoveIt Motion Planning Framework that would make use of the \textsf{\mbox{JointTrajectoryController}} running in the \textsf{manip} subsystem; creating an IKFast Kinematics Solver plugin for the arm,
-	\item \textbf{Modeling the kinematic chain of the suspension} -- adding position sensors to the rover's suspension mechanism; modyfing the URDF model so that the exact state of the rockers and differential bar can be visualized by the sensors readings; simulating the rocker suspension in Gazebo by modeling a closed-loop kinematic chain.
+	\item \textbf{Modeling the kinematic chain of the suspension} -- adding position sensors to the rover's suspension mechanism; modyfing the URDF model so that the exact state of the rockers and differential bar can be visualized by the sensor readings; simulating the rocker suspension in Gazebo by modeling a closed-loop kinematic chain.
 \end{itemize}
-
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}

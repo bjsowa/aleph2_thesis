@@ -4,6 +4,7 @@ cd ~/ros_ws
 catkin init
 catkin config --extend /opt/ros/melodic
 
+cd ~/ros_ws/src
 git clone https://github.com/acriaer/rubi_server.git
 git clone http://gitlab.continuum.ii.uni.wroc.pl/continuum/software/kacanopen.git
 git clone http://gitlab.continuum.ii.uni.wroc.pl/continuum/software/nanotec_driver.git
@@ -22,3 +23,4 @@ catkin build
 source ~/ros_ws/devel/setup.bash
 source /path/to/install/space/setup.bash
 
+echo "source ~/ros_ws/devel/setup.bash" >> ~/.bashrc

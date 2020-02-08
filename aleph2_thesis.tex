@@ -54,7 +54,8 @@
 \lstdefinelanguage{mybash}
 {
 	language = bash,
-	morekeywords = {mkdir, catkin, rosdep, apt, roslaunch, rostopic, rosservice}
+	morekeywords = {mkdir, catkin, rosdep, apt, roslaunch, rostopic, rosservice},
+	deletekeywords = {command, false}
 }
 
 \lstset{
@@ -859,7 +860,8 @@ The first thing one can do to test whether the packages were built correctly and
 \lstinputlisting[language=mybash, firstline=1, lastline=1]{lst/launching.lst}
 This will launch a basic ROS infrastructure for robot state publishing, RViz with the robot visualization and a GUI that allows changing the current joint positions. Close RViz or type \textsf{Ctrl+C} to exit.
 
-The next thing you can do is to TODO
+The next thing you can do is to test the simulation environment.\\
+Start by launching an empty world in Gazebo simulator:
 \lstinputlisting[language=mybash, firstline=3, lastline=3]{lst/launching.lst}
 
 then, spawn the \rovername robot model into the world by opening another terminal session and typing: 
@@ -868,32 +870,39 @@ then, spawn the \rovername robot model into the world by opening another termina
 and load the controllers to the Controller Manager by typing:
 \lstinputlisting[language=mybash, firstline=5, lastline=5]{lst/launching.lst}
 
-TODO
+You can also use the \textsf{aleph2\_gazebo.launch} file which includes the three previous launch files instead of running each one separately:
 \lstinputlisting[language=mybash, firstline=7, lastline=7]{lst/launching.lst}
+Add \textsf{gui:=false} if you want to run the Gazebo simulator headless.
 
-TODO
+To visualize the current robot state (seen by the simulated hardware) in RViz, type:
 \lstinputlisting[language=mybash, firstline=9, lastline=9]{lst/launching.lst}
 
-TODO
+The simulated robot should now be ready for operation.\\
+To command the \textsf{DiffDriveController}, you need to publish on the \textsf{cmd\_vel} topic. You can send messages using the \textsf{rostopic} tool, like this:
 \lstinputlisting[language=mybash, firstline=11, lastline=11]{lst/launching.lst}
+This should command the robot to drive with the linear speed of 1 meter per second and the angular speed of 1 radian per second.
 
-TODO
+By default, only the effort controllers are started for the \textsf{manip} subsystem. These controllers can set the torque applied to a joint. For example, to set the torque of 100 Nm (in the reverse direction) on the \textsf{shoulder} joint, you would write:
 \lstinputlisting[language=mybash, firstline=13, lastline=13]{lst/launching.lst}
 
-TODO
+To send position commands to the arm joint, you need to stop the effort controller and start the position controller first (they cannot be running at the same time). To do this, you need to make a call to the \textsf{switch\_controller} service, for example by using the \textsf{rosservice} tool: 
 \lstinputlisting[language=mybash, firstline=15, lastline=15]{lst/launching.lst}
+or by using \textsf{rqt\_controller\_manager} which offers a graphical interface for managing the running controllers.
 
-TODO
+Now, you should be able to set the position on the \textsf{shoulder} joint:
 \lstinputlisting[language=mybash, firstline=17, lastline=17]{lst/launching.lst}
 
-TODO
+To run the same functionality on the real robot (and a little more), you can use the \textsf{aleph2\_bringup.launch} file:
 \lstinputlisting[language=mybash, firstline=19, lastline=19]{lst/launching.lst}
 
+The ROS API for the real and simulated rover is nearly identical except that on the real robot each subsystem creates a separate Controller Manager instance in its own namespace.\\
+The corresponding \textsf{switch\_controller} call on the real robot would look like this:
+\lstinputlisting[language=mybash, firstline=21, lastline=21]{lst/launching.lst}
 
 } % paragraph indentation
 
 \chapter{Conclusion}
-It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It provides a great base for students to further develop the rover. 
+It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It is a powerful tool for integrating new hardware (as well as software) and provides a great base for students to further develop the rover. 
 
 \section{Ways to improve the software}
 The software is very useful as it is but some parts of it can be improved and certain functionalities can be added. The following problems (with their solutions) have been identified: 

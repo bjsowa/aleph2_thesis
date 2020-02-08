@@ -1,0 +1,19 @@
+roslaunch aleph2_description display.launch
+
+roslaunch aleph2_gazebo world.launch
+roslaunch aleph2_gazebo spawn_model.launch
+roslaunch aleph2_gazebo spawn_controllers.launch
+
+roslaunch aleph2_gazebo aleph2_gazebo.launch gui:=false
+
+roslaunch aleph2_description rviz.launch
+
+rostopic pub -r 10 /aleph2/drivetrain/controllers/diff_drive/cmd_vel geometry_msgs/Twist "{linear: {x: 1.0}, angular: {z: 1.0}}"
+
+rostopic pub /aleph2/manip/controllers/effort/shoulder/command std_msgs/Float64 "data: -100.0"
+
+rosservice call /aleph2/controller_manager/switch_controller "{start_controllers: ["manip/controllers/position/shoulder"], stop_controllers: ["manip/controllers/effort/shoulder"]}"
+
+rostopic pub /aleph2/manip/controllers/position/shoulder/command std_msgs/Float64 "data: 0.0"
+
+roslaunch aleph2_bringup aleph2_bringup.launch

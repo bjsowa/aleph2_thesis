@@ -54,12 +54,15 @@
 \lstdefinelanguage{mybash}
 {
 	language = bash,
-	morekeywords = {mkdir, catkin, rosdep, apt}
+	morekeywords = {mkdir, catkin, rosdep, apt, roslaunch, rostopic, rosservice}
 }
 
 \lstset{
 	style=mystyle,
-	literate={~} {$\sim$}{1}
+	literate={~} {$\sim$}{1},
+	columns=fullflexible,
+	aboveskip=0.6\baselineskip,
+	belowskip=0.0pt
 }
 
 \newcommand{\filedesc}[1] {
@@ -82,8 +85,8 @@
 
 \newcommand{\todomma}[1]{\todo[author=mma]{#1}}
 
-\englishtitle   {Control software for the \fmlinebreak Aleph2 robot -- a Mars rover prototype}
-\polishtitle    {Oprogramowanie do kontroli robota\fmlinebreak Aleph2 -- prototypu łazika marsjańskiego}
+\englishtitle   {Control software and simulation environment \fmlinebreak for the Aleph2 robot -- a Mars rover prototype}
+\polishtitle    {Oprogramowanie do kontroli i symulacji \fmlinebreak robota Aleph2 -- prototypu łazika marsjańskiego}
 \author         {Błażej Sowa}
 \advisor        {dr Marek Materzok}
 %\date          {}
@@ -797,6 +800,9 @@ The steps were tested on \textsf{Ubuntu 18.04} system which is the main platform
 
 The instructions may use some terminology related to catkin workspaces that is explained in \cite{usage:workspace}.
 
+{ % stop paragraph indentation
+\setlength{\parindent}{0pt}
+
 \section{Prerequisites}
 Before the packages can be built, the following dependencies need to be installed on the system:
 
@@ -849,6 +855,42 @@ If you used the install space:
 \end{enumerate}
 
 \section{Launching}
+The first thing one can do to test whether the packages were built correctly and are working is to run the RViz visualization with a simulated robot state:
+\lstinputlisting[language=mybash, firstline=1, lastline=1]{lst/launching.lst}
+This will launch a basic ROS infrastructure for robot state publishing, RViz with the robot visualization and a GUI that allows changing the current joint positions. Close RViz or type \textsf{Ctrl+C} to exit.
+
+The next thing you can do is to TODO
+\lstinputlisting[language=mybash, firstline=3, lastline=3]{lst/launching.lst}
+
+then, spawn the \rovername robot model into the world by opening another terminal session and typing: 
+\lstinputlisting[language=mybash, firstline=4, lastline=4]{lst/launching.lst}
+
+and load the controllers to the Controller Manager by typing:
+\lstinputlisting[language=mybash, firstline=5, lastline=5]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=7, lastline=7]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=9, lastline=9]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=11, lastline=11]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=13, lastline=13]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=15, lastline=15]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=17, lastline=17]{lst/launching.lst}
+
+TODO
+\lstinputlisting[language=mybash, firstline=19, lastline=19]{lst/launching.lst}
+
+
+} % paragraph indentation
 
 \chapter{Conclusion}
 It is fair to say that the new control software for the \rovername rover meets the goals described in section \ref{goals}. It provides a great base for students to further develop the rover. 

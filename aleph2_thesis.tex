@@ -830,7 +830,7 @@ sudo rosdep init
 \item (Optionally) Set the workspace to explicitly extend the \textsf{melodic} result space:
 \lstinputlisting[language=mybash, firstline=5, lastline=5]{lst/installation.lst}
 
-\item Put the packages you want to build in the source space. For launching the simulation, only \textsf{aleph2\_description} and \textsf{aleph2\_gazebo} are required. If you want to build the whole package stack, you will need to download addition packages mentioned in \ref{overview}:
+\item Put the packages you want to build in the source space. To launch the simulation, only \textsf{aleph2\_description} and \textsf{aleph2\_gazebo} are required. If you want to build the whole package stack, you will need to download additional packages mentioned in \ref{overview}:
 \lstinputlisting[language=mybash, firstline=7, lastline=11]{lst/installation.lst}
 
 \item Update \textsf{apt} and \textsf{rosdep} package information:
@@ -850,7 +850,7 @@ sudo rosdep init
 If you used the install space:
 \lstinputlisting[language=mybash, firstline=24, lastline=24]{lst/installation.lst}
 
-\item (Optionally) Add the above line to \textsf{.bashrc} file to source the result space automatically at the start of every terminal session:
+\item (Optionally) Add the line above to \textsf{.bashrc} file to source the result space automatically at the start of every terminal session:
 \lstinputlisting[language=mybash, firstline=26, lastline=26]{lst/installation.lst}
 
 \end{enumerate}
@@ -858,7 +858,7 @@ If you used the install space:
 \section{Launching}
 The first thing one can do to test whether the packages were built correctly and are working is to run the RViz visualization with a simulated robot state:
 \lstinputlisting[language=mybash, firstline=1, lastline=1]{lst/launching.lst}
-This will launch a basic ROS infrastructure for robot state publishing, RViz with the robot visualization and a GUI that allows changing the current joint positions. Close RViz or type \textsf{Ctrl+C} to exit.
+This will launch a basic ROS infrastructure for robot state publishing, RViz with the visualization of the robot and a GUI that allows to change the current joint positions. Close RViz or type \textsf{Ctrl+C} to exit.
 
 The next thing you can do is to test the simulation environment.\\
 Start by launching an empty world in Gazebo simulator:
@@ -870,7 +870,7 @@ then, spawn the \rovername robot model into the world by opening another termina
 and load the controllers to the Controller Manager by typing:
 \lstinputlisting[language=mybash, firstline=5, lastline=5]{lst/launching.lst}
 
-You can also use the \textsf{aleph2\_gazebo.launch} file which includes the three previous launch files instead of running each one separately:
+You can also use the \textsf{aleph2\_gazebo.launch} file, which includes the three previous launch files, instead of running each one separately:
 \lstinputlisting[language=mybash, firstline=7, lastline=7]{lst/launching.lst}
 Add \textsf{gui:=false} if you want to run the Gazebo simulator headless.
 
@@ -885,17 +885,17 @@ This should command the robot to drive with the linear speed of 1 meter per seco
 By default, only the effort controllers are started for the \textsf{manip} subsystem. These controllers can set the torque applied to a joint. For example, to set the torque of 100 Nm (in the reverse direction) on the \textsf{shoulder} joint, you would write:
 \lstinputlisting[language=mybash, firstline=13, lastline=13]{lst/launching.lst}
 
-To send position commands to the arm joint, you need to stop the effort controller and start the position controller first (they cannot be running at the same time). To do this, you need to make a call to the \textsf{switch\_controller} service, for example by using the \textsf{rosservice} tool: 
+To send position commands to the arm joint, you need to stop the effort controller and start the position controller first (they cannot run at the same time). In order to do this, you need to make a call to the \textsf{switch\_controller} service, for example by using the \textsf{rosservice} tool: 
 \lstinputlisting[language=mybash, firstline=15, lastline=15]{lst/launching.lst}
 or by using \textsf{rqt\_controller\_manager} which offers a graphical interface for managing the running controllers.
 
-Now, you should be able to set the position on the \textsf{shoulder} joint:
+You should now be able to set the position on the \textsf{shoulder} joint:
 \lstinputlisting[language=mybash, firstline=17, lastline=17]{lst/launching.lst}
 
 To run the same functionality on the real robot (and a little more), you can use the \textsf{aleph2\_bringup.launch} file:
 \lstinputlisting[language=mybash, firstline=19, lastline=19]{lst/launching.lst}
 
-The ROS API for the real and simulated rover is nearly identical except that on the real robot each subsystem creates a separate Controller Manager instance in its own namespace.\\
+The ROS APIs for the real rover and for the simulated one are nearly identical, except that on the real robot, each subsystem creates a separate Controller Manager instance in its own namespace.\\
 The corresponding \textsf{switch\_controller} call on the real robot would look like this:
 \lstinputlisting[language=mybash, firstline=21, lastline=21]{lst/launching.lst}
 
